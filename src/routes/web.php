@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,13 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', [AuthController::class, 'index']);
+Route::prefix('mypage')->middleware('auth')->group(function () {
+    Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('profile', [ProfileController::class, 'store'])->name('profile.store');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+});
 Route::middleware('auth')->group(function () {
-    Route::get('/', [AuthController::class, 'index']);
+    Route::get('/sell', [AuthController::class, 'index']);
 });

@@ -1,26 +1,36 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/register.css') }}">
+<link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 @endsection
 
 @section('content')
 <div class="register-form__content">
   <div class="register-form__heading">
-    <h1>会員登録</h1>
+    <h1>プロフィール設定</h1>
   </div>
-  <form class="form" action="/register" method="post" novalidate>
+  <form class="form" action="{{ route('profile.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="form__group">
       <div class="form__group-title">
-        <span class="form__label--item">お名前</span>
+        <label for="image" class="form__btn--item">画像を選択する</label>
+      </div>
+      <div class="form__group-content">
+        <div class="form__input--image">
+            <input type="file" id="image" name="image" accept="image/*" hidden>
+        </div>
+      </div>
+    </div>
+    <div class="form__group">
+      <div class="form__group-title">
+        <span class="form__label--item">ユーザー名</span>
       </div>
       <div class="form__group-content">
         <div class="form__input--text">
-          <input type="text" name="name" value="{{ old('name') }}" />
+          <input type="text" name="user_name" value="{{ old('user_name') }}" />
         </div>
         <div class="form__error">
-          @error('name')
+          @error('user_name')
           {{ $message }}
           @enderror
         </div>
@@ -28,14 +38,14 @@
     </div>
     <div class="form__group">
       <div class="form__group-title">
-        <span class="form__label--item">メールアドレス</span>
+        <span class="form__label--item">郵便番号</span>
       </div>
       <div class="form__group-content">
         <div class="form__input--text">
-          <input type="email" name="email" value="{{ old('email') }}" />
+          <input type="text" name="zip_code" value="{{ old('zip_code') }}" />
         </div>
         <div class="form__error">
-          @error('email')
+          @error('zip-code')
           {{ $message }}
           @enderror
         </div>
@@ -43,14 +53,14 @@
     </div>
     <div class="form__group">
       <div class="form__group-title">
-        <span class="form__label--item">パスワード</span>
+        <span class="form__label--item">住所</span>
       </div>
       <div class="form__group-content">
         <div class="form__input--text">
-          <input type="password" name="password" />
+          <input type="text" name="address" value="{{ old('address') }}" />
         </div>
         <div class="form__error">
-          @error('password')
+          @error('address')
           {{ $message }}
           @enderror
         </div>
@@ -58,25 +68,17 @@
     </div>
     <div class="form__group">
       <div class="form__group-title">
-        <span class="form__label--item">確認用パスワード</span>
+        <span class="form__label--item">建物名</span>
       </div>
       <div class="form__group-content">
         <div class="form__input--text">
-          <input type="password" name="password_confirmation" />
-        </div>
-        <div class="form__error">
-          @error('password_confirmation')
-          {{ $message }}
-          @enderror
+          <input type="text" name="building" value="{{ old('building') }}" />
         </div>
       </div>
     </div>
     <div class="form__button">
-      <button class="form__button-submit" type="submit">登録</button>
+      <button class="form__button-submit" type="submit">更新する</button>
     </div>
   </form>
-  <div class="login__link">
-    <a class="login__button-submit" href="/login">ログインの方はこちら</a>
-  </div>
 </div>
 @endsection

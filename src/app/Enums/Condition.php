@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-enum ItemCondition: int
+enum Condition: int
 {
     case LikeNew = 1;
     case VeryGood = 2;
     case Good = 3;
-    case Acceptable = 4;
+    case Poor = 4;
 
     public function label(): string
     {
@@ -15,7 +15,7 @@ enum ItemCondition: int
             self::LikeNew => '良好',
             self::VeryGood => '目立った傷や汚れなし',
             self::Good => 'やや傷や汚れあり',
-            self::Poor => '状態が悪い'
+            self::Poor => '状態が悪い',
         };
     }
 }

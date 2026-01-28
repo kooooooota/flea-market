@@ -5,41 +5,25 @@
 @endsection
 
 @section('content')
-<div class="item-index">
-    <div class="tab__group">
-        <label for="recommend" class="tab__group-ttl">
-            <input type="radio" name="recommend" class="tab__group-ttl-input">おすすめ
-        </label>
-        <ul class="item-list">
-            <li class="item-list__item">
-                <article class="item-card">
-                    <div class="item-card__img">
-                        <img src="" alt="商品画像">
-                    </div>
-                    <div class="item-card__content">
-                        <a class="item-card__content-ttl" href="" >商品名</a>
-                    </div>
-                </article>
-            </li>
-        </ul>
-    </div>
-    <div class="tab__group">
-        <label for="recommend" class="tab__group-ttl">
-            <input type="radio" name="recommend" class="tab__group-ttl-input">マイリスト
-        </label>
-        <ul class="item-list">
-            <li class="item-list__item">
-                <article class="item-card">
-                    <div class="item-card__img">
-                        <img src="" alt="商品画像">
-                    </div>
-                    <div class="item-card__content">
-                        <a class="item-card__content-ttl" href="" >商品名</a>
-                    </div>
-                </article>
-            </li>
-        </ul>
-    </div>
-
+<div class="flex border-b">
+    <a href="{{ route('items.index', ['keyword' => request('keyword')]) }}" class="p-4 {{ $tab === 'all' ? 'active' : '' }}">おすすめ</a>
+    <a href="{{ route('items.index', ['tab' => 'mylist', 'keyword' => request('keyword')]) }}" class="p-4 {{ $tab === 'mylist' ? 'active' : '' }}">マイリスト</a>
 </div>
-    @endsection
+
+<div>
+    @foreach ($items as $item)
+        <img
+        src="{{ $item?->image_path
+            ? asset('storage/' . $item->image_path)
+            : asset('images/default.png') }}"
+        alt="商品画像"
+    >
+        <a href="{{ route('items.show', $item) }}" class="btn btn-primary">{{ $item->name }}</a>
+        @if($item->sold)
+        <p>sold</p>
+        @endif
+    @endforeach
+</div>
+
+
+@endsection

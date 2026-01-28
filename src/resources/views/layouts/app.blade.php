@@ -15,11 +15,12 @@
   <header class="header">
     <div class="header__inner">
       <div class="header-utilities">
-        <h1>
             <a class="header__logo" href="/"><img src="images/header-logo.png" alt="サイトロゴ"></a>
-        </h1>
         <nav>
           <ul class="header-nav">
+            <form action="{{ route('items.index') }}" method="get">
+              <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="なにをお探しですか？">
+            </form>
             @if (Auth::check())
             <li class="header-nav__item">
               <form class="form" action="/logout" method="post">

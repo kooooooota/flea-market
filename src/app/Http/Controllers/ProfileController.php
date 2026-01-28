@@ -20,7 +20,7 @@ class ProfileController extends Controller
         $data['user_id'] = auth()->id();
 
         Profile::create($data);
-        return view('index');
+        return redirect()->route('items.index');
     }
 
     public function edit()

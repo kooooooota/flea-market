@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,10 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/', [AuthController::class, 'index']);
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
+Route::get('item/{item}', [ItemController::class, 'show'])->name('items.show');
+Route::get('/purchase/{item}', [ItemController::class, 'checkout'])->name('items.checkout');
+Route::post('item/{item}/mylist', [ItemController::class, 'toggle'])->name('items.favorite')->middleware('auth');
 Route::prefix('mypage')->middleware('auth')->group(function () {
     Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -26,5 +30,6 @@ Route::prefix('mypage')->middleware('auth')->group(function () {
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 Route::middleware('auth')->group(function () {
-    Route::get('/sell', [AuthController::class, 'index']);
+    Route::get('/sell', [ItemController::class, 'checkout']);
 });
+

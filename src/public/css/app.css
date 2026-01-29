@@ -1,0 +1,61 @@
+.header {
+    background: #000;
+}
+
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 15px;
+}
+
+.header__logo-img {
+    height: 30px;
+    width: auto;
+}
+
+.search-bar {
+    flex-grow: 1;
+    margin-left: 20px;
+    margin-right: 5px;
+    max-width: 550px;
+}
+
+.search-bar__input {
+    height: 50px;
+    width: 100%;
+    padding: 0 20px;
+    font-size: 16px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.menu__logout-button,
+.menu__login-link,
+.menu__mypage-link {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.menu__sell-link {
+    display: inline-block;
+    margin: 0 15px;
+    padding: 8px 20px;
+    background-color: #ffffff;
+    color: #000000;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 14px;
+}

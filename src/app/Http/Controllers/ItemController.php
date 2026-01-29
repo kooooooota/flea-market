@@ -9,7 +9,7 @@ use App\Models\Item;
 class ItemController extends Controller
 {
     public function index(Request $request)
-{
+    {
     $tab = $request->query('tab', 'all'); // デフォルトは 'all'
     $keyword = $request->query('keyword');
     $userId = auth()->id();
@@ -39,24 +39,24 @@ class ItemController extends Controller
     }
     
     return view('index', compact('items', 'tab'));
-}
+    }
 
-public function show(Item $item)
-{
-    return view('item', compact('item'));
-}
+    public function show(Item $item)
+    {
+        return view('item', compact('item'));
+    }
 
-public function checkout(Item $item)
-{
-    return view('purchase', compact('item'));
-}
+    public function checkout(Item $item)
+    {
+        return view('purchase', compact('item'));
+    }
 
-public function toggle(Item $item)
-{
-    auth()->user()->favoriteProducts()->toggle($item->id);
+    public function toggle(Item $item)
+    {
+        auth()->user()->favoriteProducts()->toggle($item->id);
 
-    return back();
-}
+        return back();
+    }
 
 
 }

@@ -6,41 +6,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flea Market</title>
-  <link rel="stylesheet" href="{{ asset('resources/css/sanitize.css') }}">
-  <link rel="stylesheet" href="{{ asset('resources/css/common.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
   @yield('css')
 </head>
 
 <body>
   <header class="header">
     <div class="header__inner">
-      <div class="header-utilities">
-            <a class="header__logo" href="/"><img src="images/header-logo.png" alt="サイトロゴ"></a>
-        <nav>
-          <ul class="header-nav">
-            <form action="{{ route('items.index') }}" method="get">
-              <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="なにをお探しですか？">
-            </form>
-            @if (Auth::check())
-            <li class="header-nav__item">
-              <form class="form" action="/logout" method="post">
-                @csrf
-                <button class="header-nav__button">ログアウト</button>
-              </form>
-            </li>
-            @else
-            <li class="header-nav__item">
-              <a class="header-nav__link" href="/login">ログイン</a>
-            </li>
-             @endif
-            <li class="header-nav__item">
-              <a class="header-nav__link" href="/mypage">マイページ</a>
-            </li>
-            <li class="header-nav__item">
-              <a class="header-nav__link" href="/sell">出品</a>
-            </li>
-          </ul>
-        </nav>
+      <a class="header__logo" href="/"><img class="header__logo-img" src="images/header-logo.png" alt="サイトロゴ"></a>
+      <form class="search-bar" action="{{ route('items.index') }}" method="get">
+        <input class="search-bar__input" type="text" name="keyword" value="{{ request('keyword') }}" placeholder="なにをお探しですか？">
+      </form>
+      <div class="menu">
+        @if (Auth::check())
+        <form class="menu__logout" action="/logout" method="post">
+          @csrf
+          <button class="menu__logout-button" type="submit">ログアウト</button>
+        </form>
+        @else
+        <a class="menu__login-link" href="/login">ログイン</a>
+        @endif
+        <a class="menu__mypage-link" href="/mypage">マイページ</a>
+        <a class="menu__sell-link" href="/sell">出品</a>
       </div>
     </div>
   </header>

@@ -17,7 +17,7 @@
 <form action="{{ route('items.favorite', $item) }}" method="post">
     @csrf
     <button type="submit" class="focus:outline-none hover:opcity-80 transition">
-        @if(auth()->user()->favoriteProducts->contains($item->id))
+        @if(Auth::user()?->favoriteProducts->contains($item->id))
         <img src="{{ asset('images/heart-logo-default_pink.png') }}" alt="いいね済画像">
         @else
         <img src="{{ asset('images/heart-logo-default.png') }}" alt="未いいね画像">

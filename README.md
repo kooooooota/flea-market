@@ -3,7 +3,7 @@
 ## 環境構築
 
 ### Dockerビルド
-1. `git clone`
+1. `git clone git@github.com:kooooooota/flea-market.git`
 
 2. DockerDesktopアプリを立ち上げる
 

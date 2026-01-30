@@ -14,7 +14,7 @@
 <body>
   <header class="header">
     <div class="header__inner">
-      <a class="header__logo" href="/"><img class="header__logo-img" src="images/header-logo.png" alt="サイトロゴ"></a>
+      <a class="header__logo" href="/"><img class="header__logo-img" src="{{ asset('images/header-logo.png') }}" alt="サイトロゴ"></a>
       <form class="search-bar" action="{{ route('items.index') }}" method="get">
         <input class="search-bar__input" type="text" name="keyword" value="{{ request('keyword') }}" placeholder="なにをお探しですか？">
       </form>
@@ -25,7 +25,7 @@
           <button class="menu__logout-button" type="submit">ログアウト</button>
         </form>
         @else
-        <a class="menu__login-link" href="/login">ログイン</a>
+        <a class="menu__login-link" href="{{ route('login') }}">ログイン</a>
         @endif
         <a class="menu__mypage-link" href="/mypage">マイページ</a>
         <a class="menu__sell-link" href="/sell">出品</a>

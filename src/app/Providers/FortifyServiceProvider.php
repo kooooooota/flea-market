@@ -16,6 +16,7 @@ use App\Http\Responses\RegisterResponse;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 use App\Http\Requests\LoginRequest;
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+use Illuminate\Support\Facades\Session;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,8 @@ class FortifyServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
+
+        $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
     }
 
     /**
@@ -49,5 +52,15 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(FortifyLoginRequest::class, LoginRequest::class);
+
+        Fortify::loginView(function () {
+            $previousUrl = url()->previous();
+
+            if ($previousUrl != route('login')) {
+                Session::put('url.intended', $previousUrl);
+            }
+
+            return view('auth.login');
+        });
     }
 }

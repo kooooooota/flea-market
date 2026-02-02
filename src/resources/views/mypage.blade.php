@@ -10,7 +10,8 @@
         src="{{ $profile?->image_path
             ? asset('storage/' . $profile->image_path)
             : asset('images/default.png') }}"
-        alt="プロフィール画像"
+        alt="プロフィール画像" 
+        style="width: 30px; height: 30px; object-fit: cover;"
     >
 
     <p>ユーザー名：{{ $profile->user_name ?? '未設定' }}</p>

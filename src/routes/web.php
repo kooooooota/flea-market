@@ -21,15 +21,14 @@ Route::get('/', function () {
 });
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('item/{item}', [ItemController::class, 'show'])->name('items.show');
-Route::get('/purchase/{item}', [ItemController::class, 'checkout'])->name('items.checkout');
+Route::post('item/{item}', [ItemController::class, 'comment'])->name('items.comment')->middleware('auth');
 Route::post('item/{item}/mylist', [ItemController::class, 'toggle'])->name('items.favorite')->middleware('auth');
+Route::get('/purchase/{item}', [ItemController::class, 'checkout'])->name('items.checkout');
 Route::prefix('mypage')->middleware('auth')->group(function () {
     Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('profile', [ProfileController::class, 'store'])->name('profile.store');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 });
-Route::middleware('auth')->group(function () {
-    Route::get('/sell', [ItemController::class, 'checkout']);
-});
+Route::get('/sell', [ItemController::class, ''])->middleware('auth');
 

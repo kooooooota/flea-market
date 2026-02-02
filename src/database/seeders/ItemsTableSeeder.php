@@ -23,6 +23,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => 'Rolax',
                 'price' => 15000,
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
+                'category_ids' => [1, 5],
                 'condition' => Condition::LikeNew->value,
                 'sold' => false,
             ],
@@ -34,6 +35,7 @@ class ItemsTableSeeder extends Seeder
                 'price' => 5000,
                 'description' => '高速で信頼性の高いハードディスク',
                 'condition' => Condition::VeryGood->value,
+                'category_ids' => [2],
                 'sold' => false,
             ],
             [
@@ -43,6 +45,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => 'なし',
                 'price' => 300,
                 'description' => '新鮮な玉ねぎ3束のセット',
+                'category_ids' => [10],
                 'condition' => Condition::Good->value,
                 'sold' => false,
             ],
@@ -52,6 +55,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => '革靴',
                 'price' => 4000,
                 'description' => 'クラシックなデザインの革靴',
+                'category_ids' => [1, 5],
                 'condition' => Condition::Poor->value,
                 'sold' => false,
             ],
@@ -61,6 +65,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'ノートPC',
                 'price' => 45000,
                 'description' => '高性能なノートパソコン',
+                'category_ids' => [2],
                 'condition' => Condition::LikeNew->value,
                 'sold' => false,
             ],
@@ -71,6 +76,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => 'なし',
                 'price' => 8000,
                 'description' => '高音質のレコーディング用マイク',
+                'category_ids' => [2],
                 'condition' => Condition::VeryGood->value,
                 'sold' => false,
             ],
@@ -80,6 +86,7 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'ショルダーバッグ',
                 'price' => 3500,
                 'description' => 'おしゃれなショルダーバッグ',
+                'category_ids' => [1, 4],
                 'condition' => Condition::Good->value,
                 'sold' => false,
             ],
@@ -90,6 +97,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => 'なし',
                 'price' => 500,
                 'description' => '使いやすいタンブラー',
+                'category_ids' => [10],
                 'condition' => Condition::Poor->value,
                 'sold' => false,
             ],
@@ -100,6 +108,7 @@ class ItemsTableSeeder extends Seeder
                 'brand_name' => 'Starbacks',
                 'price' => 4000,
                 'description' => '手動のコーヒーミル',
+                'category_ids' => [10],
                 'condition' => Condition::LikeNew->value,
                 'sold' => false,
             ],
@@ -109,13 +118,20 @@ class ItemsTableSeeder extends Seeder
                 'name' => 'メイクセット',
                 'price' => 2500,
                 'description' => '便利なメイクアップセット',
+                'category_ids' => [6],
                 'condition' => Condition::VeryGood->value,
                 'sold' => false,
             ],
         ];
 
         foreach ($items as $item) {
-            Item::create($item);
+
+            $categoryIds = $item['category_ids'];
+            unset($item['category_ids']);
+
+            $itemModel = Item::create($item);
+
+            $itemModel->categories()->attach($categoryIds);
         }
     }
 }

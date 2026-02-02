@@ -13,19 +13,33 @@ class ProfileController extends Controller
     {
         $data = $request->validated();
 
+        $isFirstTime = !auth()->user()->profile()->exists();
+
     if ($request->hasFile('image')) {
+        $profile = Profile::where('user_id', auth()->id())->first();
+        if ($profile && $profile->image_path) {
+            Storage::disk('public')->delete($profile->image_path);
+        }
         $path = $request->file('image')->store('profiles', 'public');
         $data['image_path'] = $path;
     }
-        $data['user_id'] = auth()->id();
+        
+        Profile::updateOrCreate(
+            ['user_id' => auth()->id()],
+            $data
+        );
 
-        Profile::create($data);
-        return redirect()->route('items.index');
+        if ($isFirstTime) {
+            return redirect()->route('items.index');
+        }
+
+        return redirect()->route('profile.show');
     }
 
     public function edit()
     {
-        return view('profile');
+        $profile = auth()->user()->profile ?? new Profile();
+        return view('profile', compact('profile'));
     }
 
     public function update(ProfileRequest $request, Profile $profile)

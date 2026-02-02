@@ -48,4 +48,9 @@ class User extends Authenticatable
         // 多対多のリレーションを定義（第2引数は中間テーブル名）
         return $this->belongsToMany(Item::class, 'likes');
     }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
 }

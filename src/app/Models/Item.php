@@ -33,5 +33,15 @@ class Item extends Model
         'condition' => Condition::class,
     ];
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
     
 }

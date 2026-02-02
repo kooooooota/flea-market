@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Comment;
+use App\Http\Requests\CommentRequest;
 
 
 class ItemController extends Controller
@@ -41,9 +43,11 @@ class ItemController extends Controller
     return view('index', compact('items', 'tab'));
     }
 
-    public function show(Item $item)
+    public function show($id)
     {
-        
+        $item = Item::with('categories', 'comments.user.profile')
+        ->withCount('likes', 'comments')
+        ->findOrFail($id);
 
         return view('item', compact('item'));
     }
@@ -58,6 +62,18 @@ class ItemController extends Controller
         auth()->user()->favoriteProducts()->toggle($item->id);
 
         return back();
+    }
+
+    public function comment(CommentRequest $request, Item $item)
+    {
+        $request->validate();
+
+        $item->comments()->create([
+            'body' => $request->body,
+            'user_id' => auth()->id(),
+        ]);
+
+        return back()->with('success', 'コメントを投稿しました');
     }
 
 

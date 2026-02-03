@@ -52,7 +52,7 @@
           <input type="text" name="zip_code" value="{{ old('zip_code', $profile->zip_code ?? '') }}" />
         </div>
         <div class="form__error">
-          @error('zip-code')
+          @error('zip_code')
           {{ $message }}
           @enderror
         </div>

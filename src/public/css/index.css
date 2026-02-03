@@ -69,4 +69,11 @@
     font-size: 20px;
     text-align: left;
     text-decoration: none;
+    color: #000;
+}
+
+.item-list__item-sold {
+    color: #000;
+    font-weight: bold;
+    font-size: 18px;
 }

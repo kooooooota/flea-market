@@ -14,7 +14,7 @@
 <body>
   <header class="header">
     <div class="header__inner">
-      <a class="header__logo" href="/"><img class="header__logo-img" src="images/header-logo.png" alt="サイトロゴ"></a>
+      <a class="header__logo" href="/"><img class="header__logo-img" src="{{ asset('images/header-logo.png') }}" alt="サイトロゴ"></a>
     </div>
   </header>
   <main>

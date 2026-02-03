@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
+use App\Models\Item;
+use App\Models\PurchasedItem;
 
 class ProfileController extends Controller
 {
@@ -48,10 +50,18 @@ class ProfileController extends Controller
         return view('mypage');
     }
 
-    public function show()
+    public function show(Request $request)
     {
+        $page = $request->query('page', 'sell');
         $profile = Profile::where('user_id', auth()->id())->first();
 
-        return view('mypage', compact('profile'));
+        if ($page === 'sell') {
+            $items = auth()->user()->items;
+        }
+        else {
+            $items = auth()->user()->purchased_items()->get();
+        }
+
+        return view('mypage', compact('profile', 'items', 'page'));
     }
 }

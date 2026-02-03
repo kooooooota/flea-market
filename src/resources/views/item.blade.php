@@ -63,7 +63,7 @@
     @csrf
     <textarea name="body" id=""></textarea>
     @error('body')
-        {{ $message }}
+    {{ $message }}
     @enderror
     <button type="submit">コメントを送信する</button>
 </form>

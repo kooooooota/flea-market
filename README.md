@@ -45,6 +45,8 @@
 - PHP8.3.0
 - Laravel8.83.27
 - MySQL8.0.26
+- nginx1.21.1
+- mailhog
 
 ## ER図
 ![alt](erd.png)

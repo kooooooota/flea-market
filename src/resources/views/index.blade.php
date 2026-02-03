@@ -27,7 +27,7 @@
                     <span class="item-list__item-name" href="{{ route('items.show', $item) }}">{{ $item->name }}</span>
                 </a>
                 @if($item->sold)
-                <p class="item-list__item-sold">sold</p>
+                <p class="item-list__item-sold">Sold</p>
                 @endif
             </div>
             @endforeach

@@ -24,11 +24,23 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_name' => 'required|string|max:255',
-            'zip_code' => 'required|string|max:255',
+            'user_name' => 'required|string|max:20',
+            'zip_code' => 'required|string|max:8',
             'address' => 'required|string|max:255',
             'building' => 'nullable|string|max:255',
             'image' => 'nullable|image|max:2048', //2MBまで
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'user_name.required' => 'ユーザー名を入力してください',
+            'user_name.max' => 'ユーザー名は20文字以内で入力してください',
+            'zip_code.required' => '郵便番号を入力してください',
+            'zip_code.max' => '郵便番号は8文字以内（ハイフン含む）で入力してください',
+            'address.required' => '住所を入力してください',
+            'address.max' => '住所は255文字以内で入力してください',
         ];
     }
 }

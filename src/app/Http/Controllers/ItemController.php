@@ -66,7 +66,7 @@ class ItemController extends Controller
 
     public function comment(CommentRequest $request, Item $item)
     {
-        $request->validate();
+        $request->validated();
 
         $item->comments()->create([
             'body' => $request->body,
@@ -115,6 +115,7 @@ class ItemController extends Controller
                 'user_id' => $user->id,
                 'item_id' => $item->id,
                 'shipping_address' => implode(' ', $shippingAddress),
+                // 'payment_method'   => $request->payment_method,
             ]);
 
             $request->session()->forget('shipping_address');

@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+<form action="{{ route('items.purchase', ['item' => $item->id]) }}" method="post">
 <img
         src="{{ $item?->image_path
             ? asset('storage/' . $item->image_path)
@@ -17,10 +18,10 @@
 <select name="payment_method" id="payment_method">    
     <option disabled selected hidden>選択してください</option>
     @foreach($paymentMethods as $paymentMethod)
-    <option value="{{ $paymentMethod->id }}" {{ old('paymentMethod_id') == $paymentMethod->id ? 'selected' : '' }}>{{ $paymentMethod->method }}</option>
+    <option value="{{ $paymentMethod->id }}" {{ old('payment_method') == $paymentMethod->id ? 'selected' : '' }}>{{ $paymentMethod->method }}</option>
     @endforeach
 </select>
-@error('payment_method_id')
+@error('payment_method')
 {{ $message }}
 @enderror
 <h2>配送先</h2>
@@ -39,7 +40,6 @@
 <div>
     <span id="output">（未選択）</span>
 </div>
-<form action="{{ route('items.purchase', ['item' => $item->id]) }}" method="post">
     @csrf
     <button type="submit">購入する</button>
 </form>

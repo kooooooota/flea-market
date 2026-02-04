@@ -20,13 +20,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', [ItemController::class, 'index'])->name('items.index')->middleware('verified');
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
 
-Route::prefix('item')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('{item}', [ItemController::class, 'show'])->name('items.show');
-    Route::post('{item}', [ItemController::class, 'comment'])->name('items.comment');
-    Route::post('{item}/mylist', [ItemController::class, 'toggle'])->name('items.favorite');
-});
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('item/{item}', [ItemController::class, 'show'])->name('items.show');
+Route::post('item/{item}', [ItemController::class, 'comment'])->name('items.comment')->middleware(['auth', 'verified']);
+Route::post('item/{item}/mylist', [ItemController::class, 'toggle'])->name('items.favorite')->middleware(['auth', 'verified']);
 
 Route::prefix('purchase')->middleware(['auth', 'verified'])->group(function () {
     Route::get('{item}', [ItemController::class, 'checkout'])->name('items.checkout');

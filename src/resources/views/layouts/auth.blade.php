@@ -14,7 +14,15 @@
 <body>
   <header class="header">
     <div class="header__inner">
+    @auth
+      @if(auth()->user()->hasVerifiedEmail())
+        <a class="header__logo" href="/"><img class="header__logo-img" src="{{ asset('images/header-logo.png') }}" alt="サイトロゴ"></a>
+      @else
+        <img class="header__logo-img" src="{{ asset('images/header-logo.png') }}" alt="サイトロゴ">
+      @endif
+    @else
       <a class="header__logo" href="/"><img class="header__logo-img" src="{{ asset('images/header-logo.png') }}" alt="サイトロゴ"></a>
+    @endauth
     </div>
   </header>
   <main>

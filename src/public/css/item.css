@@ -1,0 +1,192 @@
+/* 画像がない時のグレー塗りつぶし設定 */
+.is-empty {
+    width: 48px;
+    height: 48px;
+    background-color: #e5e5e5;
+    /* グレー */
+    border-radius: 50%;
+}
+
+.item-detail {
+    display: flex;
+    justify-content: space-around;
+    /* margin: 0 auto; */
+}
+
+.item-detail__img {
+    width: 40%;
+    height: auto;
+    margin-top: 10vh;
+}
+
+.item-detail__item-img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.item-detail__content {
+    width: 40%;
+    margin-top: 5vh;
+}
+
+.item-detail__main-title {
+    margin: 0 auto;
+}
+
+.item-detail__brand-name {
+    margin: 0 auto;
+
+}
+
+.item-detail__price {
+    margin: 10 auto;
+    font-size: 32px;
+    margin: 15px auto;
+}
+
+.item-detail__price::before {
+    content: '￥';
+    font-size: 16px;
+}
+
+.item-detail__price::after {
+    content: '（税込）';
+    font-size: 18px;
+}
+
+
+.item-detail__reaction {
+    display: flex;
+    align-items: center;
+    /* gap: 30px; */
+}
+
+.item-detail__likes-btn,
+.item-detail__comment-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: 0 25px;
+    font: inherit;
+    cursor: pointer;
+}
+
+.item-detail__likes-btn {
+    background: #ffffff;
+    border: none;
+}
+
+.item-detail__likes-img,
+.item-detail__comment-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.item-detail__likes-count,
+.item-detail__comment-count {
+    margin: 5px 0 0 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.item-detail__checkout-link {
+    display: block;
+    background: #ff5555;
+    width: 90%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 3px;
+    padding: 5px 0;
+    margin-top: 10px;
+}
+
+.item-detail__category {
+    display: flex;
+}
+
+.item-detail__category {
+    display: flex;
+    align-items: center;
+}
+
+.item-detail__sub-title {
+    font-size: 16px;
+    margin-right: 20px;
+}
+
+.item-detail__category-name {
+    background: #d9d9d9;
+    width: 15%;
+    border-radius: 100vh;
+    text-align: center;
+    font-size: 14px;
+    margin-left: 20px;
+    padding: 2px 3px;
+}
+
+.item-detail__condition {
+    display: flex;
+}
+
+.item-detail__condition-label {
+    margin-left: 20px;
+}
+
+.item-detail__section-title--comment {
+    color: #5f5f5f;
+}
+
+.item-detail__comment {
+    margin: 30px auto;
+}
+
+.item-detail__comment-user {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.item-detail__comment-name {
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.item--detail__comment-body {
+    background: #e5e5e5;
+    width: 90%;
+    padding: 8px;
+    margin: 10px 0;
+    white-space: pre-wrap;
+    border-radius: 3px;
+}
+
+.item-detail__comment-form {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.item-detail__comment-textarea {
+    width: 90%;
+    height: 20vh;
+}
+
+.item-detail__comment-btn {
+    width: 90%;
+    background: #ff5555;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    margin: 30px 0;
+    padding: 5px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+

@@ -24,9 +24,14 @@
       </div>
       <div class="form__group-content">
         <div class="form__input--image">
-            <input type="file" id="image" name="image" accept="image/*" hidden>
+            <input type="file" id="image" name="image" accept=".jpeg,.jpg,.png" hidden>
         </div>
       </div>
+      <p class="form__error-message">
+        @error('image')
+        {{ $message }}
+        @enderror
+      </p>
     </div>
     <div class="form__group">
       <div class="form__group-title">
@@ -34,7 +39,7 @@
       </div>
       <div class="form__group-content">
         <div class="form__input--text">
-          <input type="text" name="user_name" value="{{ old('user_name', $profile->user_name ?? '') }}" />
+          <input type="text" name="user_name" value="{{ old('user_name', auth()->user()->name ?? '') }}" />
         </div>
         <div class="form__error">
           @error('user_name')

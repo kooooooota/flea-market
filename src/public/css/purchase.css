@@ -1,0 +1,157 @@
+.checkout-form {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.checkout-form__purchase-info {
+    width: 60%;
+}
+
+.checkout-form__purchase-top {
+    display: flex;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 5vh;
+    margin-top: 10vh;
+    margin-left: 6vw;
+}
+
+.checkout-form__purchase-img {
+    width: 25%;
+    min-width: 100px;
+    height: 25%;
+    object-fit: cover;
+}
+
+.main-title {
+    font-size: 26px;
+    margin: 0;
+}
+
+.checkout-form__purchase-content {
+    margin-left: 5vw;
+}
+
+.checkout-form__purchase-price {
+    font-size: 28px;
+    margin: 1vh 0 0 0;
+}
+
+.checkout-form__purchase-price::before {
+    content: '￥';
+    font-size: 22px;
+    font-weight: 500;
+}
+
+/* .checkout-form__purchase-price::after {
+    content: '（税込）';
+    font-size: 22px;
+} */
+
+.checkout-form__payment {
+    margin-left: 6vw;
+    border-bottom: 1px solid #000000;
+}
+
+.section-title {
+    margin: 3vh 0 3vh 2vw;
+    font-size: 18px;
+}
+
+.checkout-form__payment-select {
+    width: 30%;
+    height: 25px;
+    margin-left: 6vw;
+}
+
+.checkout-form__error-message {
+    color: red;
+    margin-left: 6vw;
+    margin-bottom: 5vh;
+}
+
+.checkout-form__address-form {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 6vw;
+    border-bottom: 1px solid #000000;
+}
+
+.checkout-form__address {
+    display: flex;
+}
+
+.checkout-form__address-zip {
+    margin: 5px 0 0 6vw;
+    font-weight: bold;
+}
+
+.checkout-form__address-zip::before {
+    content: '〒';
+}
+
+.checkout-form__address-address {
+    margin: 5px 0 5vh 6vw;
+    font-weight: bold;
+}
+
+.checkout-form__address-building {
+    margin: 5px 0 5vh 1vw;
+    font-weight: bold;
+}
+
+
+.checkout-form__address-link {
+    text-decoration: none;
+    color: #2688d3;
+    margin-top: 3vh;
+    margin-right: 2vw;
+}
+
+.checkout-form__confirmation {
+    width: 30%;
+    margin-top: 10vh;
+    margin-right: 6vw;
+    margin-left: 6vw;
+}
+.checkout-form__confirmation-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid #000000;
+    border-top: none;
+    height: 13vh;
+}
+
+.checkout-form__confirmation-content:first-child {
+    border-top: 1px solid #000000;
+}
+
+.checkout-form__confirmation-price {
+    font-size: 24px;
+}
+
+.checkout-form__confirmation-price::before {
+    content: '￥';
+    font-size: 20px;
+}
+
+.checkout-form__confirmation-payment {
+    font-size: 18px;
+}
+
+.checkout-form__confirmation-btn {
+    display: block;
+    background: #ff5555;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 0;
+    margin-top: 8vh;
+}

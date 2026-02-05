@@ -17,14 +17,14 @@
             @foreach ($items as $item)
             <div class="item-list__item">
                 <a class="item-list__item-link" href="{{ route('items.show', $item) }}">
-                    <img
-                    class="item-list__item-img"
-                    src="{{ $item?->image_path
-                    ? asset('storage/' . $item->image_path)
-                    : asset('images/default.png') }}"
-                    alt="商品画像"
-                    >
-                    <span class="item-list__item-name" href="{{ route('items.show', $item) }}">{{ $item->name }}</span>
+                <img
+                class="item-list__item-img"
+                src="{{ $item?->image_path
+                ? asset('storage/' . $item->image_path)
+                : asset('images/default.png') }}"
+                alt="商品画像"
+                >
+                <span class="item-list__item-name" href="{{ route('items.show', $item) }}">{{ $item->name }}</span>
                 </a>
                 @if($item->sold)
                 <p class="item-list__item-sold">Sold</p>

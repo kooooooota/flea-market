@@ -49,7 +49,7 @@ class ProfileRequest extends FormRequest
                 'image',
                 'mimes:jpeg,png',
                 'max:2048',
-                'regex:/^.*\.(jpg|jpeg|png)$/i',
+                // 'regex:/^.*\.(jpg|jpeg|png)$/i',
             ],
         ];
     }
@@ -65,7 +65,7 @@ class ProfileRequest extends FormRequest
             'address.max' => '住所は255文字以内で入力してください',
             'building.max' => '建物名は255文字以下で入力してください',
             'image.mimes' => 'プロフィール画像はJPEGまたはPNG形式でアップロードしてください', 
-            'image.regex' => 'プロフィール画像はJPEGまたはPNG形式でアップロードしてください', 
+            // 'image.regex' => 'プロフィール画像はJPEGまたはPNG形式でアップロードしてください', 
         ];
     }
 }

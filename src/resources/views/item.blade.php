@@ -56,7 +56,7 @@
             <div class="item-detail__comment-user">
                 <div class="{{ $comment->user?->profile?->image_path ? '' : 'is-empty' }}">
                     @if($comment->user?->profile?->image_path)
-                        <img pclass="item-detail__comment-img" src="{{ asset('storage/' . $comment->user->profile->image_path) }}" alt="プロフィール画像">
+                        <img class="item-detail__user-img" src="{{ asset('storage/' . $comment->user->profile->image_path) }}" alt="プロフィール画像">
                     @endif
                 </div>
                 <p class="item-detail__comment-name">{{ $comment->user->name }}</p>
@@ -68,9 +68,11 @@
         <form class="item-detail__comment-form" action="{{ route('items.comment', $item) }}" method="post">
             @csrf
             <textarea class="item-detail__comment-textarea" name="body" id=""></textarea>
-            @error('body')
-            {{ $message }}
-            @enderror
+            <p class="item-detail__error-message">
+                @error('body')
+                {{ $message }}
+                @enderror
+            </p>
             <button class="item-detail__comment-btn" type="submit">コメントを送信する</button>
         </form>
     </div>

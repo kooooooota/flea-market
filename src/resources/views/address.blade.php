@@ -11,7 +11,7 @@
     @csrf
     <div class="address-form__group">
       <label class="address-form__label" for="zip_code">郵便番号</label>
-      <input class="address-form__input" type="text" name="zip_code" value="{{ old('zip_code') }}" />
+      <input class="address-form__input" type="text" name="zip_code" value="{{ old('zip_code', auth()->user()->profile?->zip_code) }}" />
       <p class="address-form__error-message">
         @error('zip_code')
         {{ $message }}
@@ -20,7 +20,7 @@
     </div>
     <div class="address-form__group">
       <label class="address-form__label" for="address">住所</label>
-      <input class="address-form__input" type="text" name="address" />
+      <input class="address-form__input" type="text" name="address" value="{{ old('address', auth()->user()->profile?->address) }}" />
       <p class="address-form__error-message">
         @error('address')
         {{ $message }}
@@ -29,7 +29,7 @@
     </div>
     <div class="address-form__group">
       <label class="address-form__label" for="building">建物名</label>
-      <input class="address-form__input" type="text" name="building" />
+      <input class="address-form__input" type="text" name="building" value="{{ old('building', auth()->user()->profile?->building) }}" />
       <p class="address-form__error-message">
         @error('building')
         {{ $message }}

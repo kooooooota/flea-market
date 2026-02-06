@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<form class="checkout-form" action="{{ route('items.purchase', ['item' => $item->id]) }}" method="post">
+<form class="checkout-form" action="{{ route('purchase.checkout', $item->id) }}" method="post">
     @csrf
     <div class="checkout-form__purchase-info">
         <div class="checkout-form__purchase-top">
@@ -16,7 +16,7 @@
             >
             <div class="checkout-form__purchase-content">
                 <h1 class="main-title">{{ $item->name ?? '未設定' }}</h1>
-                <p class="checkout-form__purchase-price">{{ $item->price ?? '未設定' }}</p>
+                <p class="checkout-form__purchase-price">{{ isset($item->price) ? number_format($item->price) : '未設定' }}</p>
             </div>
         </div>
         <div class="checkout-form__payment">
@@ -56,7 +56,7 @@
     <div class="checkout-form__confirmation">
         <div class="checkout-form__confirmation-content">
             <p class="checkout-form__confirmation-title">商品代金</p>
-            <p class="checkout-form__confirmation-price">{{ $item->price }}</p>
+            <p class="checkout-form__confirmation-price">{{ isset($item->price) ? number_format($item->price) : '未設定' }}</p>
         </div>
         <div class="checkout-form__confirmation-content">
             <p class="checkout-form__confirmation-title">支払い方法</p>

@@ -17,7 +17,7 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
-    $tab = $request->query('tab', 'all'); // デフォルトは 'all'
+    $tab = $request->query('tab', 'all');
     $keyword = $request->query('keyword');
     $userId = auth()->id();
     
@@ -98,31 +98,4 @@ class ItemController extends Controller
 
         return redirect()->route('items.checkout', $item);
     }
-
-    public function purchase(PurchaseRequest $request, Item $item)
-    {
-        $user = auth()->user();
-
-        $shippingAddress = $request->session()->get('shipping_address', [
-            'zip_code' => $user->zip_code,
-            'address' => $user->address,
-            'building' => $user->building,
-        ]);
-
-        DB::transaction(function () use ($item, $user, $shippingAddress, $request) {
-            $item->update(['sold' => true]);
-            purchasedItem::create([
-                'user_id' => $user->id,
-                'item_id' => $item->id,
-                'shipping_address' => implode(' ', $shippingAddress),
-                // 'payment_method'   => $request->payment_method,
-            ]);
-
-            $request->session()->forget('shipping_address');
-        });
-
-        return redirect()->route('items.index');
-    }
-
-
 }

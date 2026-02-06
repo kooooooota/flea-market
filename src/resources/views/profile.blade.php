@@ -5,92 +5,65 @@
 @endsection
 
 @section('content')
-<div class="register-form__content">
-  <div class="register-form__heading">
-    <h1>プロフィール設定</h1>
-  </div>
-  <form class="form" action="{{ route('profile.store') }}" method="post" enctype="multipart/form-data">
+<div class="profile-form">
+    <h1 class="register-form__heading">プロフィール設定</h1>
+  <form class="profile-form__form" action="{{ route('profile.store') }}" method="post" enctype="multipart/form-data">
     @csrf
-    <div class="form__group">
-      <div class="img-pre">
+    <div class="profile-form__group-top">
+      <div class="profile-form__preview">
         @if($profile->image_path)
-        <img src="{{ asset('storage/' . $profile->image_path) }}" alt="Profile" style="width: 30px; height: 30px; object-fit: cover;">
+          <img class="profile-form__preview-img" src="{{ asset('storage/' . $profile->image_path) }}" alt="Profile">
         @else
           <p>画像は設定されていません</p>
         @endif
       </div>
-      <div class="form__group-title">
-        <label for="image" class="form__btn--item">画像を選択する</label>
+      <div class="profile-form__select-img">
+        <label class="profile-form__select-btn" for="image">画像を選択する</label>
+        <input class="profile-form__input" type="file" id="image" name="image" accept=".jpeg,.jpg,.png" hidden>
       </div>
-      <div class="form__group-content">
-        <div class="form__input--image">
-            <input type="file" id="image" name="image" accept=".jpeg,.jpg,.png" hidden>
-        </div>
-      </div>
-      <p class="form__error-message">
+      <p class="profile-form__error-message">
         @error('image')
         {{ $message }}
         @enderror
       </p>
     </div>
-    <div class="form__group">
-      <div class="form__group-title">
-        <span class="form__label--item">ユーザー名</span>
-      </div>
-      <div class="form__group-content">
-        <div class="form__input--text">
-          <input type="text" name="user_name" value="{{ old('user_name', auth()->user()->name ?? '') }}" />
-        </div>
-        <div class="form__error">
-          @error('user_name')
-          {{ $message }}
-          @enderror
-        </div>
-      </div>
+    <div class="profile-form__group">
+      <label class="profile-form__label" for="user_name">ユーザー名</label>
+      <input class="profile-form__input" type="text" name="user_name" value="{{ old('user_name', auth()->user()->name ?? '') }}" />
+      <p class="profile-form__error-message">
+        @error('user_name')
+        {{ $message }}
+        @enderror
+      </p>
     </div>
-    <div class="form__group">
-      <div class="form__group-title">
-        <span class="form__label--item">郵便番号</span>
-      </div>
-      <div class="form__group-content">
-        <div class="form__input--text">
-          <input type="text" name="zip_code" value="{{ old('zip_code', $profile->zip_code ?? '') }}" />
-        </div>
-        <div class="form__error">
-          @error('zip_code')
-          {{ $message }}
-          @enderror
-        </div>
-      </div>
+    <div class="profile-form__group">
+      <label class="profile-form__label" for="zip_code">郵便番号</label>
+      <input class="profile-form__input" type="text" name="zip_code" value="{{ old('zip_code', $profile->zip_code ?? '') }}" />
+      <p class="profile-form__error-message">
+        @error('zip_code')
+        {{ $message }}
+        @enderror
+      </p>
     </div>
-    <div class="form__group">
-      <div class="form__group-title">
-        <span class="form__label--item">住所</span>
-      </div>
-      <div class="form__group-content">
-        <div class="form__input--text">
-          <input type="text" name="address" value="{{ old('address', $profile->address ?? '') }}" />
-        </div>
-        <div class="form__error">
-          @error('address')
-          {{ $message }}
-          @enderror
-        </div>
-      </div>
+    <div class="profile-form__group">
+      <label class="profile-form__label" for="address">住所</label>
+      <input class="profile-form__input" type="text" name="address" value="{{ old('address', $profile->address ?? '') }}" />
+      <p class="profile-form__error-message">
+        @error('address')
+        {{ $message }}
+        @enderror
+      </p>
     </div>
-    <div class="form__group">
-      <div class="form__group-title">
-        <span class="form__label--item">建物名</span>
-      </div>
-      <div class="form__group-content">
-        <div class="form__input--text">
-          <input type="text" name="building" value="{{ old('building', $profile->building ?? '') }}" />
-        </div>
-      </div>
+    <div class="profile-form__group">
+      <label class="profile-form__label" for="building">建物名</label>
+      <input class="profile-form__input" type="text" name="building" value="{{ old('building', $profile->building ?? '') }}" />
+      <p class="profile-form__error-message">
+        @error('building')
+        {{ $message }}
+        @enderror
+      </p>
     </div>
-    <div class="form__button">
-      <button class="form__button-submit" type="submit">更新する</button>
-    </div>
+    <button class="profile-form__button" type="submit">更新する</button>
   </form>
 </div>
 @endsection

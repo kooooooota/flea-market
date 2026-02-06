@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/purchase/success', [PurchaseController::class, 'success'])
+    ->name('purchase.success')
+    ->middleware('auth');
+Route::post('/Purchase/checkout/{id}', [PurchaseController::class, 'checkout'])
+    ->name('purchase.checkout')
+    ->middleware('auth');
+Route::get('/purchase/cancel/{id}', function($id) {
+    return redirect()->route('items.show', $id)->with('message', '決済がキャンセルされました');
+})->name('purchase.cancel');
+
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
 
 Route::get('/email/verify', function () {
@@ -32,7 +43,6 @@ Route::post('item/{item}/mylist', [ItemController::class, 'toggle'])->name('item
 
 Route::prefix('purchase')->middleware(['auth', 'verified'])->group(function () {
     Route::get('{item}', [ItemController::class, 'checkout'])->name('items.checkout');
-    Route::post('{item}', [ItemController::class, 'purchase'])->name('items.purchase');
     Route::get('address/{item}', [ItemController::class, 'toAddressForm'])->name('items.to_address_form');
     Route::post('address/{item}', [ItemController::class, 'changeAddress'])->name('items.change_address');
 });
@@ -45,4 +55,6 @@ Route::prefix('mypage')->middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get('/sell', [ItemController::class, ''])->middleware('auth');
+
+
 

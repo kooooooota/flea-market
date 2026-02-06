@@ -27,6 +27,19 @@
         <div class="item-list__grid">
             @foreach ($items as $item)
             <div class="item-list__item">
+                @if($item->sold)
+                <div class="item-list__item-link">
+                    <img
+                    class="item-list__item-img--sold"
+                    src="{{ $item?->image_path
+                    ? asset('storage/' . $item->image_path)
+                    : asset('images/default.png') }}"
+                    alt="商品画像"
+                    >
+                    <span class="item-list__item-name" href="{{ route('items.show', $item) }}">{{ $item->name }}</span>
+                </div>
+                <p class="item-list__item-sold">Sold</p>
+                @else
                 <a class="item-list__item-link" href="{{ route('items.show', $item) }}">
                     <img
                     class="item-list__item-img"
@@ -37,8 +50,6 @@
                     >
                     <span class="item-list__item-name" href="{{ route('items.show', $item) }}">{{ $item->name }}</span>
                 </a>
-                @if($item->sold)
-                <p class="item-list__item-sold">Sold</p>
                 @endif
             </div>
             @endforeach

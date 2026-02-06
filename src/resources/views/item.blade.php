@@ -18,7 +18,7 @@
     <div class="item-detail__content">
         <h1 class="item-detail__main-title">{{ $item->name ?? '未設定' }}</h1>
         <p class="item-detail__brand-name">{{ $item->brand_name ?? '未設定' }}</p>
-        <p class="item-detail__price">{{ $item->price ?? '未設定' }}</p>
+        <p class="item-detail__price">{{ isset($item->price) ? number_format($item->price) : '未設定' }}</p>
         <div class="item-detail__reaction">
             <form class="item-detail__likes-form" action="{{ route('items.favorite', $item) }}" method="post">
                 @csrf

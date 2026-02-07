@@ -8,9 +8,11 @@ use App\Models\Item;
 use App\Models\Comment;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PurchaseRequest;
+use App\Http\Requests\ExhibitionRequest;
 use App\Models\PaymentMethod;
 use App\Models\PurchasedItem;
-
+use App\Models\Category;
+use App\Enums\Condition;
 
 
 class ItemController extends Controller
@@ -97,5 +99,27 @@ class ItemController extends Controller
         ]));
 
         return redirect()->route('items.checkout', $item);
+    }
+
+    public function exhibit()
+    {
+        $categories = Category::all();
+        $conditions = Condition::cases();
+        return view('sell', compact('conditions', 'categories'));
+    }
+
+    public function sell(ExhibitionRequest $request)
+    {
+        $data = $request;
+
+        $path = $request->file('image')->store  ('items', 'public');
+        $data['image_path'] = $path;
+        $data['user_id'] = auth()->id();
+
+        $data = $request->only(['user_id', 'image_path', 'name', 'brand_name', 'price', 'description', 'condition']);
+        Item::create($data);
+
+        return redirect()->route('items.index')->with('success', '商品の出品が完了しました');
+
     }
 }

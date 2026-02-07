@@ -29,7 +29,7 @@
     background: #fff;
     color: #ff5555;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 8px;
     border: #ff5555 solid 2px;
     font-weight: bold;
     white-space: nowrap;
@@ -47,7 +47,7 @@
 .profile-form__form {
     display: inline-block;
     text-align: left;
-    width: 90%;
+    width: 100%;
     max-width: 450px;
     margin: 0 auto;
 }
@@ -84,10 +84,11 @@
     background-color: #ff5555;
     color: #ffffff;
     border: none;
-    border-radius: 3px;
-    padding: 12px 0;
+    border-radius: 5px;
+    padding: 10px 0;
     margin-top: 60px;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .profile-form__register-link {

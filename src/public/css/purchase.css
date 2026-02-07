@@ -152,7 +152,7 @@
     font-weight: bold;
     text-decoration: none;
     border: none;
-    border-radius: 3px;
-    padding: 5px 0;
+    border-radius: 5px;
+    padding: 10px 0;
     margin-top: 8vh;
 }

@@ -22,7 +22,7 @@ class CreateItemsTable extends Migration
             $table->integer('price');
             $table->text('description');
             $table->integer('condition');
-            $table->boolean('sold');
+            $table->boolean('sold')->default(0);
             $table->timestamps();
         });
     }

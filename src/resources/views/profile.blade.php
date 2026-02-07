@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="profile-form">
-    <h1 class="register-form__heading">プロフィール設定</h1>
+  <h1 class="profile-form__heading">プロフィール設定</h1>
   <form class="profile-form__form" action="{{ route('profile.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="profile-form__group-top">

@@ -47,10 +47,11 @@
     background-color: #ff5555;
     color: #ffffff;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     padding: 12px 0;
     margin-top: 60px;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .register-form__login-link {
@@ -59,5 +60,5 @@
     margin-top: 20px;
     color: #2688d3;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
 }

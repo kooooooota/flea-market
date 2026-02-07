@@ -27,8 +27,8 @@
         @enderror
       </p>
     </div>
-    <button class="login-form__button" type="submit">ログイン</button>
+    <button class="login-form__button" type="submit">ログインする</button>
   </form>
-  <a class="login-form__register-link" href="/register">会員登録の方はこちら</a>
+  <a class="login-form__register-link" href="/register">会員登録はこちら</a>
 </div>
 @endsection

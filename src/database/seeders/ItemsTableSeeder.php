@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Enums\Condition;
 use App\Models\Item;
+use App\Models\User;
 
 class ItemsTableSeeder extends Seeder
 {
@@ -15,9 +16,11 @@ class ItemsTableSeeder extends Seeder
      */
     public function run()
     {
+        $userIds = User::pluck('id');
+
         $items = [
             [
-                'user_id' => 1,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/Armani+Mens+Clock.jpg',
                 'name' => '腕時計',
                 'brand_name' => 'Rolax',
@@ -28,7 +31,7 @@ class ItemsTableSeeder extends Seeder
                 'sold' => false,
             ],
             [
-                'user_id' => 1,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/HDD+Hard+Disk.jpg',
                 'name' => 'HDD',
                 'brand_name' => '西芝',

@@ -102,12 +102,40 @@
     background: #636769;
 }
 
-.sell-form__input {
+.sell-form__input,
+.sell-form__input-price {
     width: 100%;
     height: 35px;
     margin-bottom: 1vh;
     border-radius: 3px;
     border: 1px solid #4f4f4f;
+    font-size: 14px;
+    padding: 0 10px;
+}
+
+.sell-form__input-price {
+    padding-left: 25px;
+}
+
+.sell-form__input-yen {
+    position: relative;
+    display: inline-block;
+}
+
+.sell-form__input-yen::before {
+    content: "¥";
+    position: absolute;
+    left: 10px;
+    /* 左からの位置 */
+    top: 50%;
+    /* 縦中央へ */
+    transform: translateY(-75%);
+    color: #000;
+    /* マークの色 */
+    pointer-events: none;
+    /* マークをクリックしてもinputが反応するようにする */
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .sell-form__textarea {
@@ -116,6 +144,8 @@
     resize: none;
     border-radius: 3px;
     border: 1px solid #4f4f4f;
+    font-size: 14px;
+    padding: 10px;
 }
 
 .sell-form__btn {

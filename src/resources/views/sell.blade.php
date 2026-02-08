@@ -70,7 +70,9 @@
         @enderror
         </p>
         <label class="sell-form__label" for="price">販売価格</label>
-        <input class="sell-form__input" type="text" name="price" id="price">
+        <div class="sell-form__input-yen">
+            <input class="sell-form__input-price" type="text" name="price" id="price">
+        </div>
         <p class="sell-form__error-message">
         @error('price')
         {{ $message }}

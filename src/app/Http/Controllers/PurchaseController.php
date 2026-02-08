@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Models\PurchasedItem;
 use App\Models\User;
 use App\Models\Profile;
+use App\Http\Requests\PurchaseRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +18,7 @@ class PurchaseController extends Controller
     /**
      * 1. 購入ボタン押下：Stripe決済画面へリダイレクト
      */
-    public function checkout(Request $request, $id)
+    public function checkout(PurchaseRequest $request, $id)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 

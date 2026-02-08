@@ -64,6 +64,7 @@
     width: 30%;
     height: 25px;
     margin-left: 6vw;
+    margin-bottom: 5vh;
 }
 
 .checkout-form__error-message {
@@ -101,7 +102,6 @@
     margin: 5px 0 5vh 1vw;
     font-weight: bold;
 }
-
 
 .checkout-form__address-link {
     text-decoration: none;

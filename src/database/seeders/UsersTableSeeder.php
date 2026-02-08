@@ -19,31 +19,6 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            [
-                'name' => 'さんぷる たろう',
-                'email' => 'taro@example.com',
-                'password' => Hash::make('exampletaro'),
-                'two_factor_secret' => encrypt('secret-key-value'),
-                'two_factor_recovery_codes' => encrypt(json_encode(Collection::times(8, function () {
-                    return RecoveryCode::generate();
-                }))),
-                'two_factor_confirmed_at' => now(),
-            ],
-            [
-                'name' => 'さんぷる じろう',
-                'email' => 'jiro@example.com',
-                'password' => Hash::make('examplejiro'),
-                'two_factor_secret' => encrypt('secret-key-value'),
-                'two_factor_recovery_codes' => encrypt(json_encode(Collection::times(8, function () {
-                    return RecoveryCode::generate();
-                })->all())),
-                'two_factor_confirmed_at' => now(),
-            ],
-        ];
-
-        foreach($users as $user) {
-            User::create($user);
-        }
+        User::factory()->count(2)->create();
     }
 }

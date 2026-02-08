@@ -47,10 +47,11 @@
     background-color: #ff5555;
     color: #ffffff;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     padding: 12px 0;
     margin-top: 60px;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .address-form__register-link {

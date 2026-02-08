@@ -34,4 +34,14 @@ class PurchaseRequest extends FormRequest
             'payment_method.required' => 'お支払い方法を選択してください'
         ];
     }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $user = auth()->user();
+            if (empty($user->profile->address)) {
+                $validator->errors()->add('address', '住所を設定してください');
+            }
+        });
+    }
 }

@@ -27,12 +27,12 @@
                 <option value="{{ $paymentMethod->id }}" {{ old('payment_method') == $paymentMethod->id ? 'selected' : '' }}>{{ $paymentMethod->method }}</option>
                 @endforeach
             </select>
-            <p class="checkout-form__error-message">
-                @error('payment_method')
-                {{ $message }}
-                @enderror
-            </p>
         </div>
+        <p class="checkout-form__error-message">
+            @error('payment_method')
+            {{ $message }}
+            @enderror
+        </p>
         <div class="checkout-form__address-form">
             <div class="checkout-form__address-info">
                 <h2 class="section-title">配送先</h2>
@@ -52,6 +52,11 @@
             @endif
             <a class="checkout-form__address-link" href="{{ route('items.to_address_form', ['item' => $item->id]) }}">変更する</a>
         </div>
+        <p class="checkout-form__error-message">
+            @error('address')
+            {{ $message}}
+            @enderror
+        </p>
     </div>
     <div class="checkout-form__confirmation">
         <div class="checkout-form__confirmation-content">

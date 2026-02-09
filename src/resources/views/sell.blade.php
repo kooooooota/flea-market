@@ -36,8 +36,8 @@
         @enderror
         </p>
         <label class="sell-form__label">商品の状態</label>
-        <select class="sell-form__condition" name="condition" required>
-            <option selected disabled hidden>選択してください</option>
+        <select class="sell-form__condition" name="condition">
+            <option value="" selected disabled hidden>選択してください</option>
             @foreach($conditions as $condition)
                 <option class="sell-form__condition-option" value="{{ $condition->value }}">{{ $condition->label() }}</option>
             @endforeach

@@ -43,15 +43,13 @@ class Item extends Model
         return $this->hasMany(Like::class);
     }
 
-    public function purchased_item()
-    {
-        return $this->hasMany(PurchasedItem::class);
-    }
+    // public function purchased_item()
+    // {
+    //     return $this->hasMany(PurchasedItem::class);
+    // }
 
-    public function profile()
-    {
-        return $this->hasOne(Profile::class);
-    }
-
-    
+    // public function profile()
+    // {
+    //     return $this->hasOne(Profile::class);
+    // }
 }

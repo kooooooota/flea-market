@@ -31,12 +31,11 @@ Route::get('/purchase/cancel/{id}', function($id) {
     return redirect()->route('items.show', $id)->with('message', '決済がキャンセルされました');
 })->name('purchase.cancel');
 
-Route::get('/', [ItemController::class, 'index'])->name('items.index');
-
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('item/{item}', [ItemController::class, 'show'])->name('items.show');
 Route::post('item/{item}', [ItemController::class, 'comment'])->name('items.comment')->middleware(['auth', 'verified']);
 Route::post('item/{item}/mylist', [ItemController::class, 'toggle'])->name('items.favorite')->middleware(['auth', 'verified']);

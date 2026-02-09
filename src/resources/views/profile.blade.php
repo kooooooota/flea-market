@@ -12,14 +12,14 @@
     <div class="profile-form__group-top">
       <div class="profile-form__preview">
         @if($profile->image_path)
-          <img class="profile-form__preview-img" src="{{ asset('storage/' . $profile->image_path) }}" alt="Profile">
+          <img id="preview" class="profile-form__preview-img" src="{{ asset('storage/' . $profile->image_path) }}" alt="Profile">
         @else
           <p>画像は設定されていません</p>
         @endif
       </div>
       <div class="profile-form__select-img">
-        <label class="profile-form__select-btn" for="image">画像を選択する</label>
-        <input class="profile-form__input" type="file" id="image" name="image" accept=".jpeg,.jpg,.png" hidden>
+        <label class="profile-form__select-btn" for="image_file">画像を選択する</label>
+        <input class="profile-form__input" type="file" id="image_file" name="image" onchange="previewImage(this);" accept=".jpeg,.jpg,.png" hidden>
       </div>
       <p class="profile-form__error-message">
         @error('image')
@@ -66,4 +66,27 @@
     <button class="profile-form__button" type="submit">更新する</button>
   </form>
 </div>
+
+<script>
+  function previewImage(input) {
+    const preview = document.getElementById('preview');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            // 取得したデータURLをimgのsrcにセット
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        // ファイルがクリアされたら非表示にする
+        preview.src = "";
+        preview.style.display = 'none';
+    }
+}
+
+</script>
 @endsection

@@ -26,7 +26,6 @@ class FortifyServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
-
         $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
     }
 
@@ -53,18 +52,22 @@ class FortifyServiceProvider extends ServiceProvider
 
         $this->app->singleton(FortifyLoginRequest::class, LoginRequest::class);
 
-        // Fortify::loginView(function () {
-        //     $previousUrl = url()->previous();
+        Fortify::loginView(function () {
+            if (session()->has('url.intended')) {
+                return view('auth.login');
+            }
 
-        //     // 自分のサイト内、かつログイン画面や認証案内画面でない場合のみ記憶
-        //     if ($previousUrl !== route('login') && 
-        //         $previousUrl !== route('verification.notice') && 
-        //         str_contains($previousUrl, config('app.url'))) {
-        //         session(['url.intended' => $previousUrl]);
-        //     }
+            $previousUrl = url()->previous();
 
-        //     return view('auth.login');
-        // });
+            $excludedRoutes = [route('login'), route('verification.notice')];
+            
+            if (!in_array($previousUrl, $excludedRoutes) && str_contains($previousUrl, config('app.url'))) {
+                session(['url.intended' => $previousUrl]);
+            }
+
+            return view('auth.login');
+        });
+
 
         Fortify::verifyEmailView(function () {
         return view('auth.verify-email');

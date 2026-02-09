@@ -61,7 +61,7 @@
                         <img class="item-detail__user-img" src="{{ asset('storage/' . $comment->user->profile->image_path) }}" alt="プロフィール画像">
                     @endif
                 </div>
-                <p class="item-detail__comment-name">{{ $comment->user->name }}</p>
+                <p class="item-detail__comment-name">{{ $comment->user->profile->user_name ?? $comment->user->name }}</p>
             </div>
             <p class="item--detail__comment-body">{{ $comment->body }}</p>
         </div>

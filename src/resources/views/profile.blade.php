@@ -29,7 +29,7 @@
     </div>
     <div class="profile-form__group">
       <label class="profile-form__label" for="user_name">ユーザー名</label>
-      <input class="profile-form__input" type="text" name="user_name" value="{{ old('user_name', auth()->user()->name ?? '') }}" />
+      <input class="profile-form__input" type="text" name="user_name" value="{{ old('user_name', $profile->user_name ?? auth()->user()->name) ?? ''}}" />
       <p class="profile-form__error-message">
         @error('user_name')
         {{ $message }}

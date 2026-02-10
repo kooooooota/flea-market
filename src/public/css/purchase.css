@@ -69,8 +69,7 @@
 
 .checkout-form__error-message {
     color: red;
-    margin-left: 6vw;
-    margin-bottom: 5vh;
+    margin: 0 0 0 6vw;
 }
 
 .checkout-form__address-form {

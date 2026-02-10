@@ -10,12 +10,10 @@
   <form class="profile-form__form" action="{{ route('profile.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="profile-form__group-top">
-      <div class="profile-form__preview">
-        @if($profile->image_path)
-          <img id="preview" class="profile-form__preview-img" src="{{ asset('storage/' . $profile->image_path) }}" alt="Profile">
-        @else
-          <p>画像は設定されていません</p>
-        @endif
+      <div class="{{ $profile?->image_path ? '' : 'is-empty' }}">
+          @if($profile?->image_path)
+          <img class="profile__user-img" src="{{ asset('storage/' . $profile->image_path) }}" alt="プロフィール画像">
+          @endif
       </div>
       <div class="profile-form__select-img">
         <label class="profile-form__select-btn" for="image_file">画像を選択する</label>

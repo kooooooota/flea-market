@@ -42,14 +42,14 @@
                     <p class="checkout-form__address-address">{{ $shipping['address'] }}</p>
                     <p class="checkout-form__address-building">{{ $shipping['building'] }}</p>
                 </div>
-            </div>
                 @else
                 <p class="checkout-form__address-zip">{{ auth()->user()->profile?->zip_code }}</p>
                 <div class="checkout-form__address">
                     <p class="checkout-form__address-address">{{ auth()->user()->profile?->address }}</p>
                     <p class="checkout-form__address-building">{{ auth()->user()->profile?->building }}</p>
                 </div>
-            @endif
+                @endif
+            </div>
             <a class="checkout-form__address-link" href="{{ route('items.to_address_form', ['item' => $item->id]) }}">変更する</a>
         </div>
         <p class="checkout-form__error-message">

@@ -123,7 +123,5 @@ class RegistrationTest extends TestCase
         $this->assertAuthenticatedAs($user);
 
         $response->assertRedirect('/mypage/profile');
-
-
     }
 }

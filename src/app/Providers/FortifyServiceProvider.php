@@ -17,6 +17,7 @@ use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 use App\Http\Requests\LoginRequest;
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
 use Illuminate\Support\Facades\Session;
+use Laravel\Fortify\Contracts\VerifyEmailResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -25,8 +26,8 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
-        $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
+        // $this->app->singleton(RegisterResponseContract::class, RegisterResponse::class);
+        // $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
     }
 
     /**
@@ -68,9 +69,15 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.login');
         });
 
-
         Fortify::verifyEmailView(function () {
         return view('auth.verify-email');
+        });
+
+        $this->app->instance(VerifyEmailResponse::class, new class implements VerifyEmailResponse {
+            public function toResponse($request)
+            {
+                return redirect('/mypage/profile?verified=1');
+            }
         });
     }
 }

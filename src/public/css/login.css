@@ -52,6 +52,7 @@
     margin-top: 60px;
     font-size: 18px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .login-form__register-link {
@@ -61,4 +62,8 @@
     color: #2688d3;
     text-decoration: none;
     font-size: 16px;
+}
+
+.login-form__error-message {
+    color: red;
 }

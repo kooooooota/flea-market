@@ -23,7 +23,7 @@
             <form class="item-detail__likes-form" action="{{ route('items.favorite', $item) }}" method="post">
                 @csrf
                 <button class="item-detail__likes-btn" type="submit">
-                    @if(Auth::user()?->favoriteProducts->contains($item->id))
+                    @if(Auth::user()?->favoriteItems->contains($item->id))
                     <img class="item-detail__likes-img" src="{{ asset('images/heart-logo-default_pink.png') }}" alt="いいね済画像">
                     @else
                     <img class="item-detail__likes-img" src="{{ asset('images/heart-logo-default.png') }}" alt="未いいね画像">

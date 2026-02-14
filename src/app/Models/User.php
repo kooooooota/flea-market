@@ -43,7 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function favoriteProducts()
+    public function favoriteItems()
     {
         return $this->belongsToMany(Item::class, 'likes');
     }

@@ -42,7 +42,7 @@ class ItemsTableSeeder extends Seeder
                 'sold' => false,
             ],
             [
-                'user_id' => 1,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/iLoveIMG+d.jpg',
                 'name' => '玉ねぎ3束',
                 'brand_name' => 'なし',
@@ -53,7 +53,7 @@ class ItemsTableSeeder extends Seeder
                 'sold' => false,
             ],
             [
-                'user_id' => 1,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/Leather+Shoes+Product+Photo.jpg',
                 'name' => '革靴',
                 'price' => 4000,
@@ -63,7 +63,7 @@ class ItemsTableSeeder extends Seeder
                 'sold' => false,
             ],
             [
-                'user_id' => 1,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/Living+Room+Laptop.jpg',
                 'name' => 'ノートPC',
                 'price' => 45000,
@@ -73,7 +73,7 @@ class ItemsTableSeeder extends Seeder
                 'sold' => false,
             ],
             [
-                'user_id' => 2,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/Music+Mic+4632231.jpg',
                 'name' => 'マイク',
                 'brand_name' => 'なし',
@@ -84,7 +84,7 @@ class ItemsTableSeeder extends Seeder
                 'sold' => false,
             ],
             [
-                'user_id' => 2,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/Purse+fashion+pocket.jpg',
                 'name' => 'ショルダーバッグ',
                 'price' => 3500,
@@ -94,7 +94,7 @@ class ItemsTableSeeder extends Seeder
                 'sold' => false,
             ],
             [
-                'user_id' => 2,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/Tumbler+souvenir.jpg',
                 'name' => 'タンブラー',
                 'brand_name' => 'なし',
@@ -105,7 +105,7 @@ class ItemsTableSeeder extends Seeder
                 'sold' => false,
             ],
             [
-                'user_id' => 2,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/Waitress+with+Coffee+Grinder.jpg',
                 'name' => 'コーヒーミル',
                 'brand_name' => 'Starbacks',
@@ -116,7 +116,7 @@ class ItemsTableSeeder extends Seeder
                 'sold' => false,
             ],
             [
-                'user_id' => 2,
+                'user_id' => $userIds->random(),
                 'image_path' => 'items/makeup-kit.jpg',
                 'name' => 'メイクセット',
                 'price' => 2500,

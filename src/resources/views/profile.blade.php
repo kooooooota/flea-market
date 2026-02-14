@@ -10,10 +10,8 @@
   <form class="profile-form__form" action="{{ route('profile.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="profile-form__group-top">
-      <div class="{{ $profile?->image_path ? '' : 'is-empty' }}">
-          @if($profile?->image_path)
-          <img class="profile__user-img" src="{{ asset('storage/' . $profile->image_path) }}" alt="プロフィール画像">
-          @endif
+      <div id="preview_div" class="{{ $profile?->image_path ? 'profile-form__preview' : 'is-empty' }}">
+          <img id="preview" class="profile-form__preview-img" src="{{ $profile?->image_path ? asset('storage/' . $profile->image_path) : 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' }}" alt="Profile">
       </div>
       <div class="profile-form__select-img">
         <label class="profile-form__select-btn" for="image_file">画像を選択する</label>
@@ -68,6 +66,7 @@
 <script>
   function previewImage(input) {
     const preview = document.getElementById('preview');
+    // const previewDiv = document.getElementById('preview_div');
     
     if (input.files && input.files[0]) {
         const reader = new FileReader();
@@ -75,7 +74,8 @@
         reader.onload = function(e) {
             // 取得したデータURLをimgのsrcにセット
             preview.src = e.target.result;
-            preview.style.display = 'block';
+            // previewDiv.classList.remove('is-empty');
+            // previewDiv.classList.add('profile-form__preview');
         }
         
         reader.readAsDataURL(input.files[0]);
@@ -84,7 +84,7 @@
         preview.src = "";
         preview.style.display = 'none';
     }
-}
+  }
 
 </script>
 @endsection

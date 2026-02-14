@@ -52,10 +52,10 @@ class EmailVerificationTest extends TestCase
         $email = 'jiro@example.com';
 
         $response = $this->post('/register', [
-            'name' => 'テスト次郎',
+            'name' => 'テスト太郎',
             'email' => $email,
-            'password' => 'password123',
-            'password_confirmation' => 'password123', 
+            'password' => 'password',
+            'password_confirmation' => 'password', 
         ]);
 
         $response->assertRedirect('/');
@@ -74,13 +74,13 @@ class EmailVerificationTest extends TestCase
         Notification::fake();
 
         $this->post('/register', [
-            'name' => 'テスト三郎',
-            'email' => 'saburo@example.com',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+            'name' => 'テスト太郎',
+            'email' => 'taro@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
         ]);
 
-        $user = User::where('email', 'saburo@example.com')->first();
+        $user = User::where('email', 'taro@example.com')->first();
 
         $verifyUrl = '';
         Notification::assertSentTo($user, VerifyEmail::class, function ($notification) use ($user, &$verifyUrl) {

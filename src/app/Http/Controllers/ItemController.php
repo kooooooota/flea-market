@@ -33,12 +33,13 @@ class ItemController extends Controller
     }
 
     if ($tab === 'mylist') {
-        if (!auth()->check()) return redirect()->route('login');
 
-        $items = auth()->user()->favoriteProducts()
-            ->where('items.user_id', '!=', $userId)
-            ->where('items.name', 'like', "%{$keyword}%")
-            ->get();
+        $items = auth()->check()
+            ? auth()->user()->favoriteItems()
+                ->where('items.user_id', '!=', $userId)
+                ->where('items.name', 'like', "%{$keyword}%")
+                ->get()
+            : collect();
     } else {
         $items = $query->get();
     }
@@ -61,7 +62,7 @@ class ItemController extends Controller
 
     public function toggle(Item $item)
     {
-        auth()->user()->favoriteProducts()->toggle($item->id);
+        auth()->user()->favoriteItems()->toggle($item->id);
 
         return back();
     }

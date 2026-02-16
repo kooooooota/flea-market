@@ -35,11 +35,14 @@ class LikeTest extends TestCase
         ]);
         
         $this->actingAs($user)
-                         ->post(route('items.favorite', $item));
+             ->post(route('items.favorite', $item));
 
         $this->get(route('items.show', $item))
              ->assertStatus(200)
-             ->assertSee('1');
+             ->assertSeeInOrder([
+                'heart-logo-default_pink.png',
+                '1'
+             ]);
 
         $this->assertDatabaseHas('likes', [
             'user_id' => $user->id,

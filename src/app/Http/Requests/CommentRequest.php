@@ -32,7 +32,7 @@ class CommentRequest extends FormRequest
     {
         return [
             'body.required' => 'コメントを入力してください',
-            'body.max' => 'コメントは255文字以下で入力してください',
+            'body.max' => 'コメントは255文字未満で入力してください',
         ];
     }
 }

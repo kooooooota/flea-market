@@ -30,7 +30,8 @@ class PurchaseController extends Controller
         // 支払い方法に応じてStripeの画面を切り替える (例: ID 2がコンビニ払いの場合)
         $types = ['card'];
         if ($paymentMethodId == 1) {
-            $types[] = 'konbini';
+            session(['purchase_item_id' => $id]);
+            return redirect()->route('purchase.success');
         }
 
         $session = Session::create([
@@ -64,64 +65,70 @@ class PurchaseController extends Controller
     {
         $sessionId = $request->get('session_id');
 
-        if (!$sessionId) {
-            return redirect()->route('items.index')->with('error', 'セッションIDが見つかりません');
-        }
+        if ($sessionId) {
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+            try {
+                $session = Session::retrieve($sessionId);
 
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        try {
-            // Stripeからセッション詳細を取得
-            $session = Session::retrieve($sessionId);
-
-            // 決済ステータスが「支払い済み(paid)」または「コンビニ決済受付完了(konbini)」の場合に実行
-            if ($session->payment_status === 'paid' || in_array('konbini', $session->payment_method_types)) {
-                
-                $itemId = $session->metadata->item_id;
-                $userId = $session->metadata->user_id;
-                $paymentMethodId = $session->metadata->payment_method_id;
-
-                $user = User::findOrFail($userId);
-                $item = Item::findOrFail($itemId);
-
-                // 住所の取得ロジック
-                // セッションに一時的な配送先があるか確認
-                $shippingAddress = $request->session()->get('shipping_address');
-
-                if (!$shippingAddress) {
-                    // セッションにない場合は profiles テーブルから取得
-                    $profile = Profile::where('user_id', $user->id)->first();
-
-                    $shippingAddress = [
-                        'zip_code' => $profile->zip_code ?? '',
-                        'address'  => $profile->address ?? '',
-                        'building' => $profile->building ?? '',
-                    ];
+                if ($session->payment_status !=='paid' && !in_array('konbini', $session->payment_method_types)) {
+                    return redirect('/')->with('error', '決済に失敗しました');
                 }
 
-                // DB保存（トランザクション）
-                DB::transaction(function () use ($item, $user, $shippingAddress, $paymentMethodId, $request) {
-                    // ① itemsテーブルのsoldをtrueにする
-                    $item->update(['sold' => true]);
+                $itemId          = $session->metadata->item_id;
+                $userId          = $session->metadata->user_id;
+                $paymentMethodId = $session->metadata->payment_method_id;
 
-                    // ② purchased_itemsテーブルに保存
-                    PurchasedItem::create([
-                        'user_id'           => $user->id,
-                        'item_id'           => $item->id,
-                        'payment_method_id' => $paymentMethodId,
-                        'shipping_address'  => implode(' ', array_filter($shippingAddress)),
-                    ]);
-
-                    // 使い終わった住所セッションを削除
-                    $request->session()->forget('shipping_address');
-                });
-
-                return redirect()->route('items.index')->with('success', '購入が完了しました！');
+            } catch (\Exception $e) {
+                return "決済処理中にエラーが発生しました: " . $e->getMessage();
             }
-        } catch (\Exception $e) {
-            return "決済処理中にエラーが発生しました: " . $e->getMessage();
         }
 
-        return redirect('/')->with('error', '決済に失敗しました');
+        else {
+            $itemId          = $request->session()->get('purchase_item_id');
+            $userId          = Auth::id();
+            $paymentMethodId = 1;
+
+            if (!$itemId) {
+                return redirect()->route('items.index')->with('購入情報が見つかりません');
+            }
+        }
+
+        try {
+            $user = User::findOrFail($userId);
+            $item = Item::findOrFail($itemId);
+
+            $shippingAddress = $request->session()->get('shipping_address');
+            if (!$shippingAddress) {
+                $profile = Profile::where('user_id', $user->id)->first();
+                $shippingAddress = [
+                    'zip_code' => $profile->zip_code ?? '',
+                    'address'  => $profile->address ?? '',
+                    'building' => $profile->building ?? '',
+                ];
+            }
+
+            DB::transaction(function () use ($item, $user, $shippingAddress, $paymentMethodId, $request) {
+                // ① itemsテーブルのsoldをtrueにする
+                $item->update(['sold' => true]);
+    
+                // ② purchased_itemsテーブルに保存
+                PurchasedItem::create([
+                    'user_id'           => $user->id,
+                    'item_id'           => $item->id,
+                    'payment_method_id' => $paymentMethodId,
+                    'zip_code' => $shippingAddress['zip_code'],
+                    'address' => $shippingAddress['address'],
+                    'building' => $shippingAddress['building'] ?? null,
+                ]);
+    
+                // 使い終わった住所セッションを削除
+                $request->session()->forget(['shipping_address', 'purchase_item_id']);
+            });
+    
+            return redirect()->route('items.index')->with('success', '購入が完了しました！');
+        
+        } catch (\Exception $e) {
+            return "データベース保存中にエラーが発生しました: " . $e->getMessage();
+        }
     }
 }

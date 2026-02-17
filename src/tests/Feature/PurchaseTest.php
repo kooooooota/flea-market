@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Database\Seeders\PaymentMethodsTableSeeder;
 use App\Enums\Condition;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Profile;
 use App\Models\PaymentMethod;
+use App\Models\PurchasedItem;
 
 class PurchaseTest extends TestCase
 {
@@ -74,5 +74,61 @@ class PurchaseTest extends TestCase
         $this->get(route('items.index'))
              ->assertStatus(200)
              ->assertSeeInOrder([$item->name, 'Sold']);
+    }
+
+    public function test_purchased_item_is_displayed_in_mypage()
+    {
+        $user = User::factory()->create();
+        $seller = User::factory()->create();
+        $paymentMethod = PaymentMethod::create([
+            'method' => 'コンビニ払い'
+        ]);
+        $item = $item = Item::create([
+            'user_id' => $seller->id,
+            'image_path' => 'items/Armani+Mens+Clock.jpg',
+            'name' => '腕時計',
+            'brand_name' => 'Rolax',
+            'price' => 15000,
+            'description' => 'スタイリッシュなデザインのメンズ腕時計',
+            'category_ids' => [1, 5],
+            'condition' => Condition::LikeNew->value,
+            'sold' => true,
+        ]);
+
+        PurchasedItem::create([
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+            'payment_method_id' => $paymentMethod->id,
+            'zip_code' => '111-1111',
+            'address' => '渋谷区千駄ヶ谷'
+        ]);
+
+        $otherUser = User::factory()->create();
+        $otherItem = Item::create([
+            'user_id' => $seller->id,
+            'image_path' => 'items/HDD+Hard+Disk.jpg',
+            'name' => 'HDD',
+            'brand_name' => '西芝',
+            'price' => 5000,
+            'description' => '高速で信頼性の高いハードディスク',
+            'condition' => Condition::VeryGood->value,
+            'category_ids' => [2],
+            'sold' => false,
+        ]); 
+
+        PurchasedItem::create([
+            'user_id' => $otherUser->id,
+            'item_id' => $otherItem->id,
+            'payment_method_id' => $paymentMethod->id,
+            'zip_code' => '222-2222',
+            'address' => '渋谷区渋谷',
+        ]);
+
+        $response = $this->actingAs($user)
+                         ->get('/mypage?page=buy');
+
+        $response->assertStatus(200);
+        $response->assertSee($item->name);
+        $response->assertDontSee($otherItem->name);
     }
 }

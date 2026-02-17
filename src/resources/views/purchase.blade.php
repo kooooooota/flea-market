@@ -24,7 +24,7 @@
             <select class="checkout-form__payment-select" name="payment_method" id="payment_method">    
                 <option disabled selected hidden>選択してください</option>
                 @foreach($paymentMethods as $paymentMethod)
-                <option value="{{ $paymentMethod->id }}" {{ old('payment_method') == $paymentMethod->id ? 'selected' : '' }}>{{ $paymentMethod->method }}</option>
+                <option value="{{ $paymentMethod->id }}" {{ old('payment_method') ?? session('selected_payment_method_id') == $paymentMethod->id ? 'selected' : '' }}>{{ $paymentMethod->method }}</option>
                 @endforeach
             </select>
         </div>
@@ -65,7 +65,7 @@
         </div>
         <div class="checkout-form__confirmation-content">
             <p class="checkout-form__confirmation-title">支払い方法</p>
-            <span class="checkout-form__confirmation-payment" id="output">（未選択）</span>
+            <span class="checkout-form__confirmation-payment" id="output">{{ $paymentMethods->find(session('selected_payment_method_id'))->method ?? '（未選択）' }}</span>
         </div>
         <button class="checkout-form__confirmation-btn" type="submit">購入する</button>
     </div>
@@ -73,8 +73,18 @@
 
 <script>
     document.getElementById('payment_method').addEventListener('change', function() {
-    const selectedText = this.options[this.selectedIndex].text;
-    document.getElementById('output').textContent = selectedText;
-});
+        const methodId = this.value;
+        const selectedText = this.options[this.selectedIndex].text;
+        document.getElementById('output').textContent = selectedText;
+
+        fetch("{{ route('purchase.save_payment') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ payment_method_id: methodId })
+        });
+    });
 </script>
 @endsection

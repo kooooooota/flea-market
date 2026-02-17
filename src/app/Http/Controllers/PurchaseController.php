@@ -122,7 +122,7 @@ class PurchaseController extends Controller
                 ]);
     
                 // 使い終わった住所セッションを削除
-                $request->session()->forget(['shipping_address', 'purchase_item_id']);
+                $request->session()->forget(['shipping_address', 'purchase_item_id', 'selected_payment_method_id']);
             });
     
             return redirect()->route('items.index')->with('success', '購入が完了しました！');
@@ -130,5 +130,11 @@ class PurchaseController extends Controller
         } catch (\Exception $e) {
             return "データベース保存中にエラーが発生しました: " . $e->getMessage();
         }
+    }
+
+    public function savePayment(Request $request)
+    {
+        session(['selected_payment_method_id' => $request->payment_method_id]);
+        return response()->json(['success' => true]);
     }
 }

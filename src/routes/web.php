@@ -30,6 +30,7 @@ Route::post('/Purchase/checkout/{id}', [PurchaseController::class, 'checkout'])
 Route::get('/purchase/cancel/{id}', function($id) {
     return redirect()->route('items.show', $id)->with('message', '決済がキャンセルされました');
 })->name('purchase.cancel');
+Route::post('/purchase/save-payment', [PurchaseController::class, 'savePayment'])->name('purchase.save_payment');
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');

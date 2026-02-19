@@ -70,7 +70,7 @@ class ItemDetailsTest extends TestCase
         $response = $this->get(route('items.show', $item));
 
         $response->assertStatus(200)
-                 ->assertSee($item->image_path)
+                 ->assertSee('storage/' . $item->image_path)
                  ->assertSee($item->name)
                  ->assertSee($item->brand_name)
                  ->assertSee('15,000')
@@ -82,7 +82,7 @@ class ItemDetailsTest extends TestCase
         }
         $response->assertSee(Condition::LikeNew->label())
                  ->assertSee('コメント(2)')
-                 ->assertSee('profiles/test-avatar.jpg')
+                 ->assertSee('storage/' . $userWithImage->image_path)
                  ->assertSee('画像あり太郎')
                  ->assertSee('画像ありのコメントです')
                  ->assertSee('is-empty')

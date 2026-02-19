@@ -111,16 +111,20 @@ class ItemController extends Controller
 
     public function sell(ExhibitionRequest $request)
     {
-        $data = $request;
+        $path = $request->file('image')->store('items', 'public');
 
-        $path = $request->file('image')->store  ('items', 'public');
-        $data['image_path'] = $path;
-        $data['user_id'] = auth()->id();
+        $item = Item::create([
+            'user_id'     => auth()->id(),
+            'image_path'  => $path,
+            'name'        => $request->name,
+            'brand_name'  => $request->brand_name,
+            'price'       => $request->price,
+            'description' => $request->description,
+            'condition'   => $request->condition,
+        ]);
 
-        $data = $request->only(['user_id', 'image_path', 'name', 'brand_name', 'price', 'description', 'condition']);
-        Item::create($data);
+        $item->categories()->attach($request->category);
 
         return redirect()->route('items.index')->with('success', '商品の出品が完了しました');
-
     }
 }

@@ -157,6 +157,7 @@
     margin-top: 60px;
     font-size: 20px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .sell-form__error-message {

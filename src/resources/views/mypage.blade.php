@@ -40,7 +40,7 @@
                 </div>
                 <p class="item-list__item-sold">Sold</p>
                 @else
-                <div class="item-list__item-link" href="{{ route('items.show', $item) }}">
+                <a class="item-list__item-link" href="{{ route('items.show', $item) }}">
                     <img
                     class="item-list__item-img"
                     src="{{ $item?->image_path
@@ -49,7 +49,7 @@
                     alt="商品画像"
                     >
                     <span class="item-list__item-name" href="{{ route('items.show', $item) }}">{{ $item->name }}</span>
-                </div>
+                </a>
                 @endif
             </div>
             @endforeach

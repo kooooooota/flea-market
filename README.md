@@ -46,7 +46,8 @@
 - Laravel8.83.27
 - MySQL8.0.26
 - nginx1.21.1
-- mailhog
+- Mailhog
+- Stripe
 
 ## ER図
 ![alt](erd.png)

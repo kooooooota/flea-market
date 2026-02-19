@@ -53,9 +53,10 @@ Route::prefix('mypage')->middleware(['auth', 'verified'])->group(function () {
     Route::post('profile', [ProfileController::class, 'store'])->name('profile.store');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 });
-
-Route::get('/sell', [ItemController::class, 'exhibit'])->name('items.exhibit')->middleware('auth');
-Route::post('/sell', [ItemController::class, 'sell'])->name('items.sell')->middleware('auth');
+Route::middleware(['auth', 'verified'])->controller(ItemController::class)->group(function () {
+    Route::get('/sell', 'exhibit')->name('items.exhibit');
+    Route::post('/sell', 'sell')->name('items.sell');
+});
 
 
 

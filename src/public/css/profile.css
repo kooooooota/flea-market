@@ -47,7 +47,8 @@
 
 .profile-form {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
 }
 
 .profile-form__heading {
@@ -99,15 +100,7 @@
     margin-top: 60px;
     font-size: 20px;
     font-weight: bold;
-}
-
-.profile-form__register-link {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-    color: #2688d3;
-    text-decoration: none;
-    font-size: 14px;
+    cursor: pointer;
 }
 
 .profile-form__error-message {

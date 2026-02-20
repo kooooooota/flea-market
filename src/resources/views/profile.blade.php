@@ -66,21 +66,16 @@
 <script>
   function previewImage(input) {
     const preview = document.getElementById('preview');
-    // const previewDiv = document.getElementById('preview_div');
     
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         
         reader.onload = function(e) {
-            // 取得したデータURLをimgのsrcにセット
             preview.src = e.target.result;
-            // previewDiv.classList.remove('is-empty');
-            // previewDiv.classList.add('profile-form__preview');
         }
         
         reader.readAsDataURL(input.files[0]);
     } else {
-        // ファイルがクリアされたら非表示にする
         preview.src = "";
         preview.style.display = 'none';
     }

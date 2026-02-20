@@ -1,6 +1,4 @@
 .sell-form {
-    /* display: flex;
-    justify-content: center; */
     text-align: center;
     margin: 5vh auto 10vh;
 }
@@ -35,9 +33,7 @@
 }
 
 .sell-form__select-btn {
-    /* display: inline-block; */
     padding: 6px 16px;
-    /* width: 30%; */
     background: #fff;
     color: #ff5555;
     cursor: pointer;
@@ -125,14 +121,10 @@
     content: "¥";
     position: absolute;
     left: 10px;
-    /* 左からの位置 */
     top: 50%;
-    /* 縦中央へ */
     transform: translateY(-75%);
     color: #000;
-    /* マークの色 */
     pointer-events: none;
-    /* マークをクリックしてもinputが反応するようにする */
     font-size: 14px;
     font-weight: bold;
 }

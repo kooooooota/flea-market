@@ -27,7 +27,6 @@
 
 .item-detail__content {
     width: 40%;
-    /* margin-top: 5vh; */
     margin-right: 2vw;
 }
 
@@ -129,12 +128,9 @@
 
 .item-detail__category-name {
     background: #d9d9d9;
-    /* width: 50%; */
     border-radius: 100vw;
-    /* text-align: center; */
     font-size: 14px;
     margin-left: 20px;
-    /* margin-bottom: 20px; */
     padding: 2px 15px;
     white-space: nowrap;
 }

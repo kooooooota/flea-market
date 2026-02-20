@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
@@ -21,12 +20,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/purchase/success', [PurchaseController::class, 'success'])
-    ->name('purchase.success')
-    ->middleware('auth');
-Route::post('/Purchase/checkout/{id}', [PurchaseController::class, 'checkout'])
-    ->name('purchase.checkout')
-    ->middleware('auth');
+Route::get('/purchase/success', [PurchaseController::class, 'success'])->name('purchase.success')->middleware('auth');
+Route::post('/Purchase/checkout/{id}', [PurchaseController::class, 'checkout'])->name('purchase.checkout')->middleware('auth');
 Route::get('/purchase/cancel/{id}', function($id) {
     return redirect()->route('items.show', $id)->with('message', '決済がキャンセルされました');
 })->name('purchase.cancel');

@@ -8,6 +8,8 @@ use Tests\TestCase;
 use App\Enums\Condition;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Category;
+use Database\Seeders\CategoriesTableSeeder;
 
 class LikeTest extends TestCase
 {
@@ -17,6 +19,13 @@ class LikeTest extends TestCase
      * @return void
      */
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(CategoriesTableSeeder::class);
+    }
     
     public function test_user_can_like_and_unlike_item()
     {
@@ -29,10 +38,12 @@ class LikeTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item->categories()->attach($categoriesIds);
         
         $this->actingAs($user)
              ->post(route('items.favorite', $item));
@@ -40,7 +51,7 @@ class LikeTest extends TestCase
         $this->get(route('items.show', $item))
              ->assertStatus(200)
              ->assertSeeInOrder([
-                'heart-logo-default_pink.png',
+                'item-detail__likes-img',
                 '1'
              ]);
 
@@ -54,7 +65,10 @@ class LikeTest extends TestCase
         
         $this->get(route('items.show', $item))
              ->assertStatus(200)
-             ->assertSee('0');
+             ->assertSeeInOrder([
+                'item-detail__likes-img',
+                '0'
+             ]);
 
         $this->assertDatabaseMissing('likes', [
             'user_id' => $user->id,
@@ -73,10 +87,12 @@ class LikeTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
-        ]); 
+        ]);
+        
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item->categories()->attach($categoriesIds);
 
         $this->actingAs($user)
              ->get(route('items.show', $item))

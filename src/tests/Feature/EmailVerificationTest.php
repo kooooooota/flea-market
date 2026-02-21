@@ -58,7 +58,7 @@ class EmailVerificationTest extends TestCase
             'password_confirmation' => 'password', 
         ]);
 
-        $response->assertRedirect('/');
+        $response->assertRedirect('/mypage/profile');
 
         $user = User::where('email', $email)->first();
         $this->assertNotNull($user);

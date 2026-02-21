@@ -8,6 +8,8 @@ use Tests\TestCase;
 use App\Enums\Condition;
 use App\Models\Item;
 use App\Models\User;
+use App\Models\Category;
+use Database\Seeders\CategoriesTableSeeder;
 
 class SearchTest extends TestCase
 {
@@ -16,24 +18,35 @@ class SearchTest extends TestCase
      *
      * @return void
      */
+
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(CategoriesTableSeeder::class);
+    }
     
     public function test_can_search_items_by_name_partial_match()
     {
         $seller = User::factory()->create();
 
-        Item::create([
+        $item1 = Item::create([
             'user_id' => $seller->id,
             'image_path' => 'items/Armani+Mens+Clock.jpg',
             'name' => '腕時計',
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
 
-        Item::create([
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item1->categories()->attach($categoriesIds);
+
+        $item2 = Item::create([
             'user_id' => $seller->id,
             'image_path' => 'items/HDD+Hard+Disk.jpg',
             'name' => 'HDD',
@@ -41,9 +54,11 @@ class SearchTest extends TestCase
             'price' => 5000,
             'description' => '高速で信頼性の高いハードディスク',
             'condition' => Condition::VeryGood->value,
-            'category_ids' => [2],
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::where('name', '家電')->value('id');
+        $item2->categories()->attach($categoriesIds);
 
         $response = $this->get('/?keyword=時計');
 
@@ -65,10 +80,12 @@ class SearchTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $targetItem->categories()->attach($categoriesIds);
 
         $otherItem = Item::create([
             'user_id' => $seller->id,
@@ -78,9 +95,11 @@ class SearchTest extends TestCase
             'price' => 5000,
             'description' => '高速で信頼性の高いハードディスク',
             'condition' => Condition::VeryGood->value,
-            'category_ids' => [2],
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::where('name', '家電')->value('id');
+        $otherItem->categories()->attach($categoriesIds);
 
         $unmatchedItem = Item::create([
             'user_id' => $seller->id,
@@ -89,10 +108,12 @@ class SearchTest extends TestCase
             'brand_name' => 'なし',
             'price' => 300,
             'description' => '新鮮な玉ねぎ3束のセット',
-            'category_ids' => [10],
             'condition' => Condition::Good->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::where('name', 'キッチン')->value('id');
+        $otherItem->categories()->attach($categoriesIds);
 
         $user->favoriteItems()->attach([$targetItem->id, $unmatchedItem->id]);
 

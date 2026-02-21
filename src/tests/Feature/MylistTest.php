@@ -8,6 +8,8 @@ use Tests\TestCase;
 use App\Enums\Condition;
 use App\Models\Item;
 use App\Models\User;
+use App\Models\Category;
+use Database\Seeders\CategoriesTableSeeder;
 
 class MylistTest extends TestCase
 {
@@ -17,6 +19,15 @@ class MylistTest extends TestCase
      * @return void
      */
     
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(CategoriesTableSeeder::class);
+    }
+
     public function test_mylist_displays_only_liked_items()
     {
         $user = User::factory()->create();
@@ -30,10 +41,12 @@ class MylistTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $likedItem->categories()->attach($categoriesIds);
 
         $notLikedItem = Item::create([
             'user_id' => $seller->id,
@@ -43,9 +56,11 @@ class MylistTest extends TestCase
             'price' => 5000,
             'description' => '高速で信頼性の高いハードディスク',
             'condition' => Condition::VeryGood->value,
-            'category_ids' => [2],
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::where('name', '家電')->value('id');
+        $notLikedItem->categories()->attach($categoriesIds);
 
         $user->favoriteItems()->attach($likedItem->id);
 
@@ -71,10 +86,12 @@ class MylistTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => true,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $soldItem->categories()->attach($categoriesIds);
 
         $onSaleItem = Item::create([
             'user_id' => $seller->id,
@@ -84,9 +101,11 @@ class MylistTest extends TestCase
             'price' => 5000,
             'description' => '高速で信頼性の高いハードディスク',
             'condition' => Condition::VeryGood->value,
-            'category_ids' => [2],
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::where('name', '家電')->value('id');
+        $onSaleItem->categories()->attach($categoriesIds);
 
         $user->favoriteItems()->attach([$soldItem->id, $onSaleItem->id]);
 
@@ -111,10 +130,12 @@ class MylistTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $soldItem->categories()->attach($categoriesIds);
 
         $response = $this->get('/?tab=mylist');
 

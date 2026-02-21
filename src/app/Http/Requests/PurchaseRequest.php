@@ -40,7 +40,7 @@ class PurchaseRequest extends FormRequest
         $validator->after(function ($validator) {
             $user = auth()->user();
             if (empty($user?->profile?->address)) {
-                $validator->errors()->add('address', '住所を設定してください');
+                $validator->errors()->add('address', 'プロフィール設定で住所を登録してください');
             }
         });
     }

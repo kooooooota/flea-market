@@ -8,6 +8,8 @@ use Tests\TestCase;
 use App\Enums\Condition;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\Category;
+use Database\Seeders\CategoriesTableSeeder;
 
 class CommentTest extends TestCase
 {
@@ -17,12 +19,18 @@ class CommentTest extends TestCase
      * @return void
      */
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(CategoriesTableSeeder::class);
+    }
     
     public function test_user_can_comment()
     {
         $user = User::factory()->create();
         $seller = User::factory()->create();
-
         $item = Item::create([
             'user_id' => $seller->id,
             'image_path' => 'items/Armani+Mens+Clock.jpg',
@@ -30,10 +38,12 @@ class CommentTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item->categories()->attach($categoriesIds);
 
         $commentData = ['body' => 'コメント送信テストです'];
 
@@ -59,7 +69,6 @@ class CommentTest extends TestCase
     public function test_guest_cannot_comment()
     {
         $seller = User::factory()->create();
-
         $item = Item::create([
             'user_id' => $seller->id,
             'image_path' => 'items/Armani+Mens+Clock.jpg',
@@ -67,10 +76,12 @@ class CommentTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item->categories()->attach($categoriesIds);
 
         $response = $this->post(route('items.comment', $item), [
             'body' => '未ログインのコメント送信テストです'
@@ -87,7 +98,6 @@ class CommentTest extends TestCase
     {
         $user = User::factory()->create();
         $seller = User::factory()->create();
-
         $item = Item::create([
             'user_id' => $seller->id,
             'image_path' => 'items/Armani+Mens+Clock.jpg',
@@ -95,10 +105,12 @@ class CommentTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item->categories()->attach($categoriesIds);
 
         $commentData = ['body' => ''];
 
@@ -116,7 +128,6 @@ class CommentTest extends TestCase
     {
         $user = User::factory()->create();
         $seller = User::factory()->create();
-
         $item = Item::create([
             'user_id' => $seller->id,
             'image_path' => 'items/Armani+Mens+Clock.jpg',
@@ -124,10 +135,12 @@ class CommentTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item->categories()->attach($categoriesIds);
 
         $commentData = str_repeat('a', 256);
 

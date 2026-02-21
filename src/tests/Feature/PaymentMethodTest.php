@@ -11,6 +11,8 @@ use App\Models\Item;
 use App\Models\Profile;
 use App\Models\PaymentMethod;
 use App\Models\PurchasedItem;
+use App\Models\Category;
+use Database\Seeders\CategoriesTableSeeder;
 
 class PaymentMethodTest extends TestCase
 {
@@ -24,22 +26,26 @@ class PaymentMethodTest extends TestCase
     
     public function test_payment_method_is_reflected()
     {
+        $this->seed(CategoriesTableSeeder::class);
+
         $user = User::factory()->create();
         $seller = User::factory()->create();
         $paymentMethod = PaymentMethod::create([
             'method' => 'コンビニ払い'
         ]);
-        $item = $item = Item::create([
+        $item = Item::create([
             'user_id' => $seller->id,
             'image_path' => 'items/Armani+Mens+Clock.jpg',
             'name' => '腕時計',
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => true,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item->categories()->attach($categoriesIds);
 
         PurchasedItem::create([
             'user_id' => $user->id,

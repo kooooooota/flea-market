@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Models\PurchasedItem;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\PaymentMethod;
 use App\Http\Requests\PurchaseRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,12 +25,12 @@ class PurchaseController extends Controller
 
         $item = Item::findOrFail($id);
         
-        // フォーム(name="payment_method")から支払い方法のIDを取得
-        $paymentMethodId = $request->input('payment_method');
+        // フォーム(name="payment_method")から支払い方法を取得
+        $paymentMethod = PaymentMethod::find($request->payment_method);
 
-        // 支払い方法に応じてStripeの画面を切り替える (例: ID 2がコンビニ払いの場合)
+        // 支払い方法に応じてStripeの画面を切り替える
         $types = ['card'];
-        if ($paymentMethodId == 1) {
+        if ($paymentMethod && $paymentMethod->method === 'コンビニ払い') {
             session(['purchase_item_id' => $id]);
             return redirect()->route('purchase.success');
         }
@@ -86,7 +87,9 @@ class PurchaseController extends Controller
         else {
             $itemId          = $request->session()->get('purchase_item_id');
             $userId          = Auth::id();
-            $paymentMethodId = 1;
+
+            $konbini = PaymentMethod::where('method', 'コンビニ払い')->first();
+            $paymentMethodId = $konbini ? $konbini->id : null;
 
             if (!$itemId) {
                 return redirect()->route('items.index')->with('購入情報が見つかりません');

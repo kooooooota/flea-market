@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Profile;
 use App\Models\PaymentMethod;
+use App\Models\Category;
+use Database\Seeders\CategoriesTableSeeder;
 
 class ShippingAddressTest extends TestCase
 {
@@ -23,6 +25,8 @@ class ShippingAddressTest extends TestCase
 
     public function test_the_changed_address_is_reflected()
     {
+        $this->seed(CategoriesTableSeeder::class);
+
         $user = User::factory()->create();
         $seller = User::factory()->create();
         $item = Item::create([
@@ -36,6 +40,9 @@ class ShippingAddressTest extends TestCase
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item->categories()->attach($categoriesIds);
 
         Profile::create([
             'user_id' => $user->id,

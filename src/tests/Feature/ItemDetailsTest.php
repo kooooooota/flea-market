@@ -5,13 +5,13 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Database\Seeders\ItemsTableSeeder;
-use Database\Seeders\CategoriesTableSeeder;
 use App\Enums\Condition;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Comment;
 use App\Models\Profile;
+use App\Models\Category;
+use Database\Seeders\CategoriesTableSeeder;
 
 class ItemDetailsTest extends TestCase
 {
@@ -26,11 +26,20 @@ class ItemDetailsTest extends TestCase
     {
         $this->seed(CategoriesTableSeeder::class);
 
-        User::factory()->create();
+        $seller = User::factory()->create();
+        $item = Item::create([
+            'user_id' => $seller->id,
+            'image_path' => 'items/Armani+Mens+Clock.jpg',
+            'name' => '腕時計',
+            'brand_name' => 'Rolax',
+            'price' => 15000,
+            'description' => 'スタイリッシュなデザインのメンズ腕時計',
+            'condition' => Condition::LikeNew->value,
+            'sold' => false,
+        ]);
 
-        $this->seed(ItemsTableSeeder::class);
-
-        $item = Item::with('categories')->first();
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $item->categories()->attach($categoriesIds);
 
         $likers = User::factory()->count(2)->create();
         foreach ($likers as $liker) {
@@ -74,8 +83,14 @@ class ItemDetailsTest extends TestCase
                  ->assertSee($item->name)
                  ->assertSee($item->brand_name)
                  ->assertSee('15,000')
-                 ->assertSee('2')
-                 ->assertSee('3')
+                 ->assertSeeInOrder([
+                     'item-detail__likes-img',
+                     '2'
+                 ])
+                 ->assertSeeInOrder([
+                     'item-detail__comment-img',
+                     '2'
+                 ])
                  ->assertSee($item->description);
         foreach ($item->categories as $category) {
             $response->assertSee($category->name);

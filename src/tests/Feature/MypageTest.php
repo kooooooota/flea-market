@@ -11,6 +11,8 @@ use App\Models\Item;
 use App\Models\Profile;
 use App\Models\PaymentMethod;
 use App\Models\PurchasedItem;
+use App\Models\Category;
+use Database\Seeders\CategoriesTableSeeder;
 
 class MypageTest extends TestCase
 {
@@ -24,6 +26,8 @@ class MypageTest extends TestCase
     
     public function test_can_display_user_information()
     {
+        $this->seed(CategoriesTableSeeder::class);
+
         $user = User::factory()->create();
         $seller = User::factory()->create();
         $paymentMethod = PaymentMethod::create([
@@ -36,10 +40,13 @@ class MypageTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category_ids' => [1, 5],
             'condition' => Condition::LikeNew->value,
             'sold' => true,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $boughtItem->categories()->attach($categoriesIds);
+
         PurchasedItem::create([
             'user_id' => $user->id,
             'item_id' => $boughtItem->id,
@@ -47,6 +54,7 @@ class MypageTest extends TestCase
             'address' => '渋谷区千駄ヶ谷',
             'payment_method_id' => $paymentMethod->id,
         ]);
+
         $sellItem = Item::create([
             'user_id' => $user->id,
             'image_path' => 'items/HDD+Hard+Disk.jpg',
@@ -55,9 +63,12 @@ class MypageTest extends TestCase
             'price' => 5000,
             'description' => '高速で信頼性の高いハードディスク',
             'condition' => Condition::VeryGood->value,
-            'category_ids' => [2],
             'sold' => false,
         ]);
+
+        $categoriesIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+        $sellItem->categories()->attach($categoriesIds);
+
         $profile = Profile::create([
             'user_id' => $user->id,
             'image_path' => 'profiles/test-avatar.jpg',

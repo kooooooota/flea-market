@@ -10,6 +10,7 @@ use Tests\TestCase;
 use App\Enums\Condition;
 use App\Models\Item;
 use App\Models\User;
+use App\Models\Category;
 use Database\Seeders\CategoriesTableSeeder;
 
 class ListingTest extends TestCase
@@ -26,6 +27,8 @@ class ListingTest extends TestCase
     {
         $user = User::factory()->create();
         $this->seed(CategoriesTableSeeder::class);
+        $categoryIds = Category::whereIn('name', ['ファッション', 'メンズ'])->pluck('id')->toArray();
+
         $response = $this->actingAs($user)
                          ->get(route('items.exhibit'))
                          ->assertStatus(200);
@@ -43,13 +46,13 @@ class ListingTest extends TestCase
             'brand_name' => 'Rolax',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'category' => [1, 5],
+            'category' => $categoryIds,
             'condition' => Condition::LikeNew->value,
             'sold' => false,
         ];
 
         $response = $this->actingAs($user)->post(route('items.sell'), $formData);
-              
+             
         $response->assertStatus(302);
 
         $this->assertDatabaseHas('items', [
@@ -66,8 +69,13 @@ class ListingTest extends TestCase
         $this->assertNotNull($item->image_path);
         $this->assertStringContainsString('items/', $item->image_path);
 
-        $this->assertCount(2, $item->categories);
-        $this->assertTrue($item->categories->contains(1));
-        $this->assertTrue($item->categories->contains(5));
+        $this->assertDatabaseHas('category_item', [
+            'category_id' => $categoryIds[0],
+            'item_id' => $item->id,
+        ]);
+        $this->assertDatabaseHas('category_item', [
+            'category_id' => $categoryIds[1],
+            'item_id' => $item->id,
+        ]);
     }
 }

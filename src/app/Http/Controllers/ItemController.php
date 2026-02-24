@@ -33,7 +33,6 @@ class ItemController extends Controller
     }
 
     if ($tab === 'mylist') {
-
         $items = auth()->check()
             ? auth()->user()->favoriteItems()
                 ->where('items.user_id', '!=', $userId)

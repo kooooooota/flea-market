@@ -16,19 +16,15 @@ use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
-    /**
-     * 1. 購入ボタン押下：Stripe決済画面へリダイレクト
-     */
     public function checkout(PurchaseRequest $request, $id)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $item = Item::findOrFail($id);
         
-        // フォーム(name="payment_method")から支払い方法を取得
-        $paymentMethod = PaymentMethod::find($request->payment_method);
+        $paymentMethodId = $request->input('payment_method');
+        $paymentMethod = PaymentMethod::findOrFail($paymentMethodId);
 
-        // 支払い方法に応じてStripeの画面を切り替える
         $types = ['card'];
         if ($paymentMethod && $paymentMethod->method === 'コンビニ払い') {
             session(['purchase_item_id' => $id]);
@@ -46,22 +42,18 @@ class PurchaseController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            // success_urlは必須パラメータです。スペルに注意してください。
             'success_url' => route('purchase.success') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('items.show', $id),
             'metadata' => [
                 'item_id'           => $id,
                 'user_id'           => Auth::id(),
-                'payment_method_id' => $paymentMethodId, // 選択されたIDをStripeへ預ける
+                'payment_method_id' => $paymentMethodId,
             ],
         ]);
 
         return redirect($session->url);
     }
 
-    /**
-     * 2. 決済完了後：DB更新と保存処理
-     */
     public function success(Request $request)
     {
         $sessionId = $request->get('session_id');
@@ -85,8 +77,8 @@ class PurchaseController extends Controller
         }
 
         else {
-            $itemId          = $request->session()->get('purchase_item_id');
-            $userId          = Auth::id();
+            $itemId = $request->session()->get('purchase_item_id');
+            $userId = Auth::id();
 
             $konbini = PaymentMethod::where('method', 'コンビニ払い')->first();
             $paymentMethodId = $konbini ? $konbini->id : null;
@@ -111,10 +103,8 @@ class PurchaseController extends Controller
             }
 
             DB::transaction(function () use ($item, $user, $shippingAddress, $paymentMethodId, $request) {
-                // ① itemsテーブルのsoldをtrueにする
                 $item->update(['sold' => true]);
     
-                // ② purchased_itemsテーブルに保存
                 PurchasedItem::create([
                     'user_id'           => $user->id,
                     'item_id'           => $item->id,
@@ -124,7 +114,6 @@ class PurchaseController extends Controller
                     'building' => $shippingAddress['building'] ?? null,
                 ]);
     
-                // 使い終わった住所セッションを削除
                 $request->session()->forget(['shipping_address', 'purchase_item_id', 'selected_payment_method_id']);
             });
     

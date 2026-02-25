@@ -39,7 +39,7 @@
         <select class="sell-form__condition" name="condition">
             <option value="" selected disabled hidden>選択してください</option>
             @foreach($conditions as $condition)
-                <option class="sell-form__condition-option" value="{{ $condition->value }}">{{ $condition->label() }}</option>
+                <option class="sell-form__condition-option" value="{{ $condition->value }}" {{ old('condition') == $condition->value ? 'selected' : '' }}>{{ $condition->label() }}</option>
             @endforeach
         </select>
         <p class="sell-form__error-message">
@@ -49,21 +49,21 @@
         </p>
         <h2 class="section-title">商品名と説明</h2>
         <label class="sell-form__label" for="name">商品名</label>
-        <input class="sell-form__input" type="text" name="name" id="name">
+        <input class="sell-form__input" type="text" name="name" id="name" value="{{ old('name', $item->name ?? '') }}">
         <p class="sell-form__error-message">
         @error('name')
         {{ $message }}
         @enderror
         </p>
         <label class="sell-form__label" for="brand_name">ブランド名</label>
-        <input class="sell-form__input" type="text" name="brand_name" id="brand_name">
+        <input class="sell-form__input" type="text" name="brand_name" id="brand_name" value="{{ old('brand_name', $item->brand_name ?? '') }}">
         <p class="sell-form__error-message">
         @error('brand_name')
         {{ $message }}
         @enderror
         </p>
         <label class="sell-form__label" for="description">商品の説明</label>
-        <textarea class="sell-form__textarea" name="description" id="description"></textarea>
+        <textarea class="sell-form__textarea" name="description" id="description">{{ old('description', $item->description ?? '') }}</textarea>
         <p class="sell-form__error-message">
         @error('description')
         {{ $message }}
@@ -71,7 +71,7 @@
         </p>
         <label class="sell-form__label" for="price">販売価格</label>
         <div class="sell-form__input-yen">
-            <input class="sell-form__input-price" type="text" name="price" id="price">
+            <input class="sell-form__input-price" type="text" name="price" id="price" value="{{ old('price', $item->price ?? '') }}">
         </div>
         <p class="sell-form__error-message">
         @error('price')

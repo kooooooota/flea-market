@@ -18,13 +18,4 @@ class Profile extends Model
     {
         return $this->hasOne(User::class);
     }
-
-//     protected function profileImageUrl(): Attribute
-// {
-//     return Attribute::get(fn () => 
-//         $this->image_path 
-//             ? asset('storage/' . $this->image_path) 
-//             : asset('images/default-avatar.png')
-//     );
-// }
 }

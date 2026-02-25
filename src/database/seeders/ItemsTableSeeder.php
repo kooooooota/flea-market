@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use App\Enums\Condition;
 use App\Models\Item;
 use App\Models\User;
@@ -129,11 +131,20 @@ class ItemsTableSeeder extends Seeder
 
         foreach ($items as $item) {
 
+            if (isset($item['image_path'])) {
+                $sourcePath = database_path("seeders/images/" . basename($item['image_path']));
+                $storagePath = "public/" . $item['image_path'];
+
+                if (File::exists($sourcePath)) {
+                    Storage::makeDirectory(dirname($storagePath));
+                    Storage::put($storagePath, File::get($sourcePath));
+                }
+            }
+
             $categoryIds = $item['category_ids'];
             unset($item['category_ids']);
 
             $itemModel = Item::create($item);
-
             $itemModel->categories()->attach($categoryIds);
         }
     }

@@ -36,32 +36,39 @@
 
 3. 「.env.example」ファイルを複製し、「.env」ファイルを作成する。  
 ```bash
-    cp .env.example .env
+cp .env.example .env
 ```
 
 4. .envに以下の環境変数を追加 
 ```text 
-    DB_CONNECTION=mysql  
-    DB_HOST=mysql  
-    DB_PORT=3306  
-    DB_DATABASE=laravel_db  
-    DB_USERNAME=laravel_user  
-    DB_PASSWORD=laravel_pass  
+DB_CONNECTION=mysql  
+DB_HOST=mysql  
+DB_PORT=3306  
+DB_DATABASE=laravel_db  
+DB_USERNAME=laravel_user  
+DB_PASSWORD=laravel_pass  
+    
+MAIL_FROM_ADDRESS=system-test@example.com
 ```
 
 5. アプリケーションキーの作成  
 ```bash
-    php artisan key:generate  
+php artisan key:generate  
 ```
 
 6. マイグレーションの実行  
 ```bash
-    php artisan migrate
+php artisan migrate
 ```
 
 7. シーディングの実行  
 ```bash
-    php artisan db:seed  
+php artisan db:seed  
+```  
+
+8. シンボリックリンクの作成  
+```bash
+php artisan storage:link
 ```
 
 ### Stripeの環境変数の設定・カード決済画面での入力事項
@@ -88,40 +95,57 @@ STRIPE_SECRET=sk_test...取得したシークレットキー
 
 
 ## テスト実行方法
-1. 「.env.testing.example」ファイルを複製し、「.env.testing」ファイルを作成する。  
+1. テスト用データベースを準備する  
+- MySQLコンテナからMySQLに、rootユーザーでログインする。  
+パスワードは、docker-compose.ymlファイルのMYSQL_ROOT_PASSWORD:に設定されているrootを入力する。
 ```bash
-    cp .env.testing.example .env.testing
+mysql -u root -p
+```
+ 
+- ログイン後、データベースを作成する。
+```bash
+CREATE DATABASE demo_test;
 ```
 
-2. 「.env.testing」ファイルのAPP_ENVとAPP_KEYを編集する。 
+- 作成されているか確認する。
+```bash
+SHOW DATABASES;
+```
+
+2. 「.env.testing.example」ファイルを複製し、「.env.testing」ファイルを作成する。  
+```bash
+cp .env.testing.example .env.testing
+```
+
+3. 「.env.testing」ファイルのAPP_ENVとAPP_KEYを編集する。 
 ```text 
-    APP_ENV=test
-    APP_KEY=
+APP_ENV=test
+APP_KEY=
 ```
 
-3. 「.env.testing」ファイルのデータベースの接続情報を編集する。  
+4. 「.env.testing」ファイルのデータベースの接続情報を編集する。  
 ```text
-    DB_DATABASE=demo_test
-    DB_USERNAME=root
-    DB_PASSWORD=root
+DB_DATABASE=demo_test
+DB_USERNAME=root
+DB_PASSWORD=root
 ```
 
-4. APP_KEYに新たにテスト用のアプリケーションキーを加える。
+5. APP_KEYに新たにテスト用のアプリケーションキーを加える。
 ```bash
-    php artisan key:generate --env=testing
+php artisan key:generate --env=testing
 ```
 
-5. キャッシュのクリアをする。
+6. キャッシュのクリアをする。
 ```bash
-    php artisan config:clear
+php artisan config:clear
 ```
 
-6. テスト用のテーブルを作成する。
+7. テスト用のテーブルを作成する。
 ```bash
-    php artisan migrate --env=testing
+php artisan migrate --env=testing
 ```
 
-7. テスト実行  
+8. テスト実行  
 - 全テスト実行: `vendor/bin/phpunit tests/Feature`  
 - 特定のテスト: `vendor/bin/phpunit tests/Feature/テストファイル名`
 

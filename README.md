@@ -70,6 +70,12 @@ php artisan db:seed
 php artisan storage:link
 ```
 
+9. 権限の設定  
+権限エラーが発生する場合は、開発環境に限り一時的に以下のコマンドで対応してください。  
+```bash
+sudo chmod -R 777 src/storage src/bootstrap/cache
+```
+
 ### Stripeの環境変数の設定・カード決済画面での入力事項
 1. Stripeアカウントの準備  
 Stripeにログインまたはアカウント作成し、テストモード（サンドボックス）にする。  
